@@ -23,6 +23,8 @@ gamejs.ready(function() {
   //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
 
+    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51");
+
     var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000");
     var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a");
 
@@ -56,6 +58,7 @@ gamejs.ready(function() {
             robot.draw(display);
         });
 
+        ball.draw(display);
 
     });
 });
