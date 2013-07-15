@@ -130,8 +130,8 @@ gamejs.ready(function() {
 
         display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
         robots.forEach(function(robot){
-            robot.draw(display);
             robot.stayIn();
+            robot.draw(display);
         });
 
 
