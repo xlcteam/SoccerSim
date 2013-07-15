@@ -10,10 +10,14 @@ var Robot = function(rect, dims, rotation, color) {
    Robot.superConstructor.apply(this, arguments);
    this.rotation = rotation;
    this.color = color;
+   this.dragging = false;
 
    this.originalImage = new gamejs.Surface(dims);
-   draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], dims[0]/2, 0);
-   draw.circle(this.originalImage, 'rgba(255, 255, 255, 0.7)',
+
+   this.radius = dims[0]/2;
+   
+   draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
+   draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
            [dims[0]/2, dims[1]/10], dims[1]/5, 0);
 
    this.speed = 20 + (40 * Math.random());
@@ -38,6 +42,12 @@ Robot.prototype.update = function(msDuration) {
    }
 }
 
+Robot.prototype.mouseOver = function(pos) {
+    var dx = this.rect.x - pos[0];
+    var dy = this.rect.y - pos[1];
+    
+    return 
+}
 
 gamejs.ready(function() {
 
@@ -64,6 +74,19 @@ gamejs.ready(function() {
 
     gamejs.onEvent(function(event) {
         // event handling
+        console.log(event);
+
+        if (event.type == gamejs.event.MOUSE_DOWN) {
+            var pos = event.pos; 
+            if (robot.mouseOver(pos)) {
+                robot.dragging = !robot.dragging; 
+            }
+
+        } else if (event.type === gamejs.event.MOUSE_UP) {
+            var pos = event.pos;
+        } else if (event.type === gamejs.event.MOUSE_MOTION) {
+            var pos = event.pos; 
+        }
     });
 
     gamejs.onTick(function(msDuration) {
