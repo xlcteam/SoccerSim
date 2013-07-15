@@ -45,6 +45,8 @@ gamejs.ready(function() {
             robot.eventResponse(event);
         });
 
+        ball.eventResponse(event);
+
     });
 
     gamejs.onTick(function(msDuration) {
@@ -58,6 +60,7 @@ gamejs.ready(function() {
             robot.draw(display);
         });
 
+        ball.stayIn();
         ball.draw(display);
 
     });
