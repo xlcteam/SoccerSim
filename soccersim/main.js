@@ -50,6 +50,17 @@ Robot.prototype.mouseOver = function(pos) {
     return Math.sqrt(dx*dx+dy*dy) < this.radius;
 }
 
+Robot.prototype.stayIn = function(){
+    var x = this.rect.left;
+    var y = this.rect.top;
+
+    if (x - this.radius < 0) this.rect.left = 0 + this.radius;
+    else if (x + this.radius > 729) this.rect.left = 729 - this.radius;
+
+    if (y - this.radius < 0) this.rect.top = 0 + this.radius;
+    else if (y + this.radius > 546) this.rect.top = 546 - this.radius;
+}  
+
 Robot.prototype.draw = function(surface) {
     var rect = new gamejs.Rect([this.rect.left-this.radius, this.rect.top-this.radius]);
     surface.blit(this.image, rect);
@@ -120,6 +131,7 @@ gamejs.ready(function() {
         display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
         robots.forEach(function(robot){
             robot.draw(display);
+            robot.stayIn();
         });
 
 
