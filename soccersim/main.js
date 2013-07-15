@@ -13,6 +13,8 @@ var Robot = function(rect, dims, rotation, color) {
 
    this.originalImage = new gamejs.Surface(dims);
    draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], dims[0]/2, 0);
+   draw.circle(this.originalImage, 'rgba(255, 255, 255, 0.7)',
+           [dims[0]/2, dims[1]/10], dims[1]/5, 0);
 
    this.speed = 20 + (40 * Math.random());
 
@@ -58,6 +60,7 @@ gamejs.ready(function() {
   //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
 
+    var robot = new Robot([200, 200], [21*3, 21*3], 270, "#ff0000");
 
     gamejs.onEvent(function(event) {
         // event handling
@@ -65,5 +68,6 @@ gamejs.ready(function() {
 
     gamejs.onTick(function(msDuration) {
         // game loop
+        robot.draw(display);
     });
 });
