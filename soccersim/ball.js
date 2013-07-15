@@ -1,7 +1,7 @@
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 
-var Ball = function(rect, dims, color, getNeutralSpotsCallback){
+var Ball = function(rect, dims, color, field, getNeutralSpotsCallback){
     
     //Ball.superConstructor.apply(this, arguments);
     this.color = color;
@@ -9,6 +9,7 @@ var Ball = function(rect, dims, color, getNeutralSpotsCallback){
     this.radius = dims[0]/2;    
     this.image = new gamejs.Surface(dims);
     this.unoccupiedNeutralSpots = getNeutralSpotsCallback;
+    this.field = field;
 
     draw.circle(this.image, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
 
@@ -17,16 +18,38 @@ var Ball = function(rect, dims, color, getNeutralSpotsCallback){
                           "bottomleft": [224, 363],
                           "bottomright": [503, 363],
                           "center": [729/2, 546/2]};
+
+    this.followingSpots = { "topleft" : ["topleft", "bottomleft", "center", "topright", "bottomright"],
+                            "topright": ["topright", "bottomright", "center", "topleft", "bottomleft"],
+                            "bottomleft": ["bottomleft", "topleft", "center", "bottomright", "topright"],
+                            "bottomright": ["bottomright", "topright", "center", "bottomleft", "topleft"]};
     this.dragging = false;
 
     return this;
 };
 
-Ball.prototype.moveToNeutralSpot = function() {
+Ball.prototype.moveToNS = function(spot) {
+    this.rect.left = this.neutralSpots[spot][0];
+    this.rect.top = this.neutralSpots[spot][1];
+}
 
+Ball.prototype.moveToUNS = function() { // unoccupied neutral spot
     var unoccupiedNeutralSpots = this.unoccupiedNeutralSpots();
-
     this.dragging = false;
+    
+    var side = "";
+    if (this.rect.top < this.field[1]/2) side += "top";
+    else side += "bottom";
+
+    if (this.rect.left < this.field[0]/2) side += "left";
+    else side += "right";
+    
+    this.followingSpots[side].forEach(function(spot){
+        if (spot in unoccupiedNeutralSpots){
+            this.moveToNS(spot);
+            return;
+        }
+    });
 }
 
 Ball.prototype.ballOutside = function(){
@@ -38,7 +61,7 @@ Ball.prototype.ballOutside = function(){
 
 Ball.prototype.stayIn = function(){
     if (this.ballOutside()){
-        this.moveToNeutralSpot();
+        this.moveToUNS();
     }
 }
 

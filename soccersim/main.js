@@ -36,7 +36,7 @@ gamejs.ready(function() {
     robots.push(robotB1);
     robots.push(robotB2);
 
-    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", function(){
+    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], function(){
         var neutralSpots = { "topleft" : [224, 185],
                           "topright": [503, 183],
                           "bottomleft": [224, 363],
