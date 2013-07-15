@@ -3,6 +3,34 @@ var draw = require('gamejs/draw');
 
 gamejs.preload(['img/field.png']);
 
+
+var Robot = function(rect) {
+   // call superconstructor
+   Robot.superConstructor.apply(this, arguments);
+   this.speed = 20 + (40 * Math.random());
+   // ever ship has its own scale
+   this.originalImage = gamejs.image.load("img/robot.png");
+   var dims = this.originalImage.getSize();
+   this.rotation = 0;
+   this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
+   this.rect = new gamejs.Rect(rect);
+   return this;
+};
+// inherit (actually: set prototype)
+gamejs.utils.objects.extend(Robot, gamejs.sprite.Sprite);
+Robot.prototype.update = function(msDuration) {
+   // moveIp = move in place
+   this.rect.moveIp(0, this.speed * (msDuration/1000));
+   if (this.rect.top > 600) {
+      this.speed *= -1;
+      this.image = gamejs.transform.rotate(this.originalImage, this.rotation + 180);
+   } else if (this.rect.top < 0 ) {
+      this.speed *= -1;
+      this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
+   }
+}
+
+
 gamejs.ready(function() {
 
     this.width = 729;
