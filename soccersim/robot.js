@@ -47,15 +47,15 @@ Robot.prototype.mouseOver = function(pos) {
     return Math.sqrt(dx*dx+dy*dy) < this.radius;
 }
 
-Robot.prototype.stayIn = function(){
+Robot.prototype.stayIn = function(dims){
     var x = this.rect.left;
     var y = this.rect.top;
 
     if (x - this.radius < 0) this.rect.left = 0 + this.radius;
-    else if (x + this.radius > 729) this.rect.left = 729 - this.radius;
+    else if (x + this.radius > dims[0]) this.rect.left = dims[0] - this.radius;
 
     if (y - this.radius < 0) this.rect.top = 0 + this.radius;
-    else if (y + this.radius > 546) this.rect.top = 546 - this.radius;
+    else if (y + this.radius > dims[1]) this.rect.top = dims[0] - this.radius;
 }  
 
 Robot.prototype.draw = function(surface) {

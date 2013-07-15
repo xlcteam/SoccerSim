@@ -2,6 +2,7 @@ var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 
 var Robot = require('robot').Robot;
+var Ball = require('ball').Ball;
 
 gamejs.preload(['img/field.png']);
 
@@ -51,7 +52,7 @@ gamejs.ready(function() {
 
         display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
         robots.forEach(function(robot){
-            robot.stayIn();
+            robot.stayIn([this.width, this.height]);
             robot.draw(display);
         });
 
