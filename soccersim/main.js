@@ -55,6 +55,24 @@ Robot.prototype.draw = function(surface) {
     surface.blit(this.image, rect);
 }
 
+Robot.prototype.eventResponse = function(event) {
+    if (event.type == gamejs.event.MOUSE_DOWN) {
+        var pos = event.pos;
+        if (this.mouseOver(pos)) {
+            this.dragging = !this.dragging;
+        }
+
+    } else if (event.type === gamejs.event.MOUSE_UP) {
+        var pos = event.pos;
+    } else if (event.type === gamejs.event.MOUSE_MOTION) {
+        var pos = event.pos;
+        if (this.dragging) {
+            this.rect.left = pos[0];
+            this.rect.top = pos[1];
+        }
+    }
+}
+
 gamejs.ready(function() {
 
     this.width = 729;
@@ -72,26 +90,26 @@ gamejs.ready(function() {
   //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
 
-    var robot = new Robot([200, 200], [21*3, 21*3], 270, "#ff0000");
+    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000");
+    var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a");
+
+    var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00");
+    var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff1a");
+
+
+    var robots = [];
+    robots.push(robotA1);
+    robots.push(robotA2);
+    robots.push(robotB1);
+    robots.push(robotB2);
 
     gamejs.onEvent(function(event) {
         // event handling
 
-        if (event.type == gamejs.event.MOUSE_DOWN) {
-            var pos = event.pos; 
-            if (robot.mouseOver(pos)) {
-                robot.dragging = !robot.dragging; 
-            }
+        robots.forEach(function(robot){
+            robot.eventResponse(event);
+        });
 
-        } else if (event.type === gamejs.event.MOUSE_UP) {
-            var pos = event.pos;
-        } else if (event.type === gamejs.event.MOUSE_MOTION) {
-            var pos = event.pos; 
-            if (robot.dragging) {
-                robot.rect.left = pos[0];
-                robot.rect.top = pos[1];
-            }
-        }
     });
 
     gamejs.onTick(function(msDuration) {
@@ -100,6 +118,10 @@ gamejs.ready(function() {
         this.field = gamejs.image.load("img/field.png");
 
         display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
-        robot.draw(display);
+        robots.forEach(function(robot){
+            robot.draw(display);
+        });
+
+
     });
 });
