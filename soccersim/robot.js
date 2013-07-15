@@ -55,7 +55,7 @@ Robot.prototype.stayIn = function(dims){
     else if (x + this.radius > dims[0]) this.rect.left = dims[0] - this.radius;
 
     if (y - this.radius < 0) this.rect.top = 0 + this.radius;
-    else if (y + this.radius > dims[1]) this.rect.top = dims[0] - this.radius;
+    else if (y + this.radius > dims[1]) this.rect.top = dims[1] - this.radius;
 }  
 
 Robot.prototype.draw = function(surface) {
