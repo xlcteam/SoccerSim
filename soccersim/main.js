@@ -1,17 +1,21 @@
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 
-gamejs.preload(['img/field.png']);
+gamejs.preload(['img/field.png', 'img/robot.png']);
 
 
-var Robot = function(rect) {
+var Robot = function(rect, rotation, color) {
    // call superconstructor
+
    Robot.superConstructor.apply(this, arguments);
-   this.speed = 20 + (40 * Math.random());
-   // ever ship has its own scale
+   this.rotation = rotation;
+   this.color = color;
    this.originalImage = gamejs.image.load("img/robot.png");
+
+   this.speed = 20 + (40 * Math.random());
+
+   // ever ship has its own scale
    var dims = this.originalImage.getSize();
-   this.rotation = 0;
    this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
    this.rect = new gamejs.Rect(rect);
    return this;
