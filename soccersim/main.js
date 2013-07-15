@@ -43,10 +43,16 @@ Robot.prototype.update = function(msDuration) {
 }
 
 Robot.prototype.mouseOver = function(pos) {
-    var dx = this.rect.x - pos[0];
-    var dy = this.rect.y - pos[1];
+    var dx = this.rect.left - pos[0];
+    var dy = this.rect.top - pos[1];
+    console.log(this.radius, Math.sqrt(dx*dx+dy*dy));
     
-    return 
+    return Math.sqrt(dx*dx+dy*dy) < this.radius;
+}
+
+Robot.prototype.draw = function(surface) {
+    var rect = new gamejs.Rect([this.rect.left-this.radius, this.rect.top-this.radius]);
+    surface.blit(this.image, rect);
 }
 
 gamejs.ready(function() {
@@ -62,11 +68,7 @@ gamejs.ready(function() {
 
     gamejs.display.setCaption("Soccer Simulation");
 
-    display.fill("#047a01");
-    this.field = gamejs.image.load("img/field.png");
-
-    display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
-    
+   
   //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
 
@@ -74,7 +76,6 @@ gamejs.ready(function() {
 
     gamejs.onEvent(function(event) {
         // event handling
-        console.log(event);
 
         if (event.type == gamejs.event.MOUSE_DOWN) {
             var pos = event.pos; 
@@ -86,11 +87,19 @@ gamejs.ready(function() {
             var pos = event.pos;
         } else if (event.type === gamejs.event.MOUSE_MOTION) {
             var pos = event.pos; 
+            if (robot.dragging) {
+                robot.rect.left = pos[0];
+                robot.rect.top = pos[1];
+            }
         }
     });
 
     gamejs.onTick(function(msDuration) {
         // game loop
+        display.fill("#047a01");
+        this.field = gamejs.image.load("img/field.png");
+
+        display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
         robot.draw(display);
     });
 });
