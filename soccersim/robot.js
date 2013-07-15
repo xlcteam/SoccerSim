@@ -42,7 +42,7 @@ Robot.prototype.update = function(msDuration) {
 Robot.prototype.mouseOver = function(pos) {
     var dx = this.rect.left - pos[0];
     var dy = this.rect.top - pos[1];
-    console.log(this.radius, Math.sqrt(dx*dx+dy*dy));
+    //console.log(this.radius, Math.sqrt(dx*dx+dy*dy));
     
     return Math.sqrt(dx*dx+dy*dy) < this.radius;
 }
