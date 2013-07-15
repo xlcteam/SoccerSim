@@ -23,8 +23,6 @@ gamejs.ready(function() {
   //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
 
-    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51");
-
     var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000");
     var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a");
 
@@ -37,6 +35,33 @@ gamejs.ready(function() {
     robots.push(robotA2);
     robots.push(robotB1);
     robots.push(robotB2);
+
+    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", function(){
+        var neutralSpots = { "topleft" : [224, 185],
+                          "topright": [503, 183],
+                          "bottomleft": [224, 363],
+                          "bottomright": [503, 363],
+                          "center": [729/2, 546/2]};
+
+        var unoccupied = [];
+
+        for (spot in neutralSpots){
+            var occupied = false;
+            robots.forEach(function(robot){
+                var dx = neutralSpots[spot][0] - robot.rect.left;
+                var dy = neutralSpots[spot][1] - robot.rect.top;
+                
+                if (Math.sqrt(dx*dx+dy*dy) < robot.radius + ball.radius){
+                    occupied = true;
+                }
+            });
+            if (!occupied){
+                unoccupied.push(spot);
+            }
+        }
+       
+        return unoccupied;
+    });
 
     gamejs.onEvent(function(event) {
         // event handling

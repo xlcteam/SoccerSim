@@ -1,13 +1,14 @@
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 
-var Ball = function(rect, dims, color){
+var Ball = function(rect, dims, color, getNeutralSpotsCallback){
     
     //Ball.superConstructor.apply(this, arguments);
     this.color = color;
     this.rect = new gamejs.Rect(rect);
     this.radius = dims[0]/2;    
     this.image = new gamejs.Surface(dims);
+    this.unoccupiedNeutralSpots = getNeutralSpotsCallback;
 
     draw.circle(this.image, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
 
@@ -22,8 +23,8 @@ var Ball = function(rect, dims, color){
 };
 
 Ball.prototype.moveToNeutralSpot = function() {
-    this.rect.left = this.neutralSpots.center[0];
-    this.rect.top = this.neutralSpots.center[1];
+
+    var unoccupiedNeutralSpots = this.unoccupiedNeutralSpots();
 
     this.dragging = false;
 }
