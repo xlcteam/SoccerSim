@@ -1,7 +1,7 @@
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 
-gamejs.preload(['img/field.png', 'img/robot.png']);
+gamejs.preload(['img/field.png']);
 
 
 var Robot = function(rect, dims, rotation, color) {
@@ -11,9 +11,8 @@ var Robot = function(rect, dims, rotation, color) {
    this.rotation = rotation;
    this.color = color;
 
-   this.originalImage = gamejs.image.load("img/robot.png");
-
    this.originalImage = new gamejs.Surface(dims);
+   draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], dims[0]/2, 0);
 
    this.speed = 20 + (40 * Math.random());
 
