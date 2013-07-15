@@ -19,10 +19,11 @@ var Ball = function(rect, dims, color, field, getNeutralSpotsCallback){
                           "bottomright": [503, 363],
                           "center": [729/2, 546/2]};
 
-    this.followingSpots = { "topleft" : ["topleft", "bottomleft", "center", "topright", "bottomright"],
-                            "topright": ["topright", "bottomright", "center", "topleft", "bottomleft"],
-                            "bottomleft": ["bottomleft", "topleft", "center", "bottomright", "topright"],
-                            "bottomright": ["bottomright", "topright", "center", "bottomleft", "topleft"]};
+    this.followingSpots = {
+        "topleft" : ["topleft", "bottomleft", "center", "topright", "bottomright"],
+        "topright": ["topright", "bottomright", "center", "topleft", "bottomleft"],
+        "bottomleft": ["bottomleft", "topleft", "center", "bottomright", "topright"],
+        "bottomright": ["bottomright", "topright", "center", "bottomleft", "topleft"]};
     this.dragging = false;
 
     return this;
@@ -36,18 +37,25 @@ Ball.prototype.moveToNS = function(spot) {
 Ball.prototype.moveToUNS = function() { // unoccupied neutral spot
     var unoccupiedNeutralSpots = this.unoccupiedNeutralSpots();
     this.dragging = false;
-    
+
     var side = "";
     if (this.rect.top < this.field[1]/2) side += "top";
     else side += "bottom";
 
     if (this.rect.left < this.field[0]/2) side += "left";
     else side += "right";
-    
+
+    var moved = false;
+    var $this = this;
+
     this.followingSpots[side].forEach(function(spot){
-        if (spot in unoccupiedNeutralSpots){
-            this.moveToNS(spot);
-            return;
+        console.log(spot, unoccupiedNeutralSpots);
+
+        if (moved) return;
+
+        if (unoccupiedNeutralSpots.indexOf(spot) != -1){
+            $this.moveToNS(spot);
+            moved = true;
         }
     });
 }
@@ -68,7 +76,7 @@ Ball.prototype.stayIn = function(){
 Ball.prototype.mouseOver = function(pos) {
     var dx = this.rect.left - pos[0];
     var dy = this.rect.top - pos[1];
-    
+
     return Math.sqrt(dx*dx+dy*dy) < this.radius;
 }
 
