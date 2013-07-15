@@ -4,13 +4,16 @@ var draw = require('gamejs/draw');
 gamejs.preload(['img/field.png', 'img/robot.png']);
 
 
-var Robot = function(rect, rotation, color) {
+var Robot = function(rect, dims, rotation, color) {
    // call superconstructor
 
    Robot.superConstructor.apply(this, arguments);
    this.rotation = rotation;
    this.color = color;
+
    this.originalImage = gamejs.image.load("img/robot.png");
+
+   this.originalImage = new gamejs.Surface(dims);
 
    this.speed = 20 + (40 * Math.random());
 
