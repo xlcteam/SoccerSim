@@ -1,29 +1,49 @@
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
+var math = require('gamejs/utils/math');
+var box2d = require('./Box2dWeb-2.1.a.3');
 
-var Robot = function(rect, dims, rotation, color) {
-   // call superconstructor
+var Robot = function(rect, dims, rotation, color, b2world) {
+    // call superconstructor
 
-   Robot.superConstructor.apply(this, arguments);
-   this.rotation = rotation;
-   this.color = color;
-   this.dragging = false;
+    Robot.superConstructor.apply(this, arguments);
+    this.rotation = rotation;
+    this.color = color;
+    this.dragging = false;
 
-   this.originalImage = new gamejs.Surface(dims);
+    this.originalImage = new gamejs.Surface(dims);
 
-   this.radius = dims[0]/2;
-   
-   draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
-   draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
+    this.radius = dims[0]/2;
+
+    //body
+    var def = new box2d.b2BodyDef();
+    def.type = box2d.b2Body.b2_dynamicBody;
+    def.position = new box2d.b2Vec2(dims[0], dims[1]);
+    def.angle = math.radians(this.rotation); 
+    def.linearDamping = 0.15;
+    def.bullet = true;
+    def.angularDamping = 0.3;
+    this.body = b2world.CreateBody(def);
+
+    //fixture
+    var fixdef= new box2d.b2FixtureDef();
+    fixdef.density = 1.0;
+    fixdef.friction = 0.3;
+    fixdef.restitution = 0.4;
+    fixdef.shape = new box2d.b2CircleShape(this.radius);
+    this.body.CreateFixture(fixdef);
+
+    draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
+    draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
            [dims[0]/2, dims[1]/10], dims[1]/5, 0);
 
-   this.speed = 20 + (40 * Math.random());
+    this.speed = 20 + (40 * Math.random());
 
-   // ever ship has its own scale
-   var dims = this.originalImage.getSize();
-   this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
-   this.rect = new gamejs.Rect(rect);
-   return this;
+    // ever ship has its own scale
+    var dims = this.originalImage.getSize();
+    this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
+    this.rect = new gamejs.Rect(rect);
+    return this;
 };
 // inherit (actually: set prototype)
 gamejs.utils.objects.extend(Robot, gamejs.sprite.Sprite);

@@ -28,11 +28,11 @@ gamejs.ready(function() {
   //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
 
-    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000");
-    var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a");
+    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000", b2world);
+    var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a", b2world);
 
-    var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00");
-    var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff1a");
+    var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
+    var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff1a", b2world);
 
 
     var robots = [];
