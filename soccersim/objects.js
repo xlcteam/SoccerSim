@@ -1,6 +1,6 @@
 var box2d = require('./Box2dWeb-2.1.a.3');
 
-var BoxProp = function(pars){
+var BoxProp = function(pars, b2world){
     /*
    static rectangle shaped prop
      

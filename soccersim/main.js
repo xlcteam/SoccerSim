@@ -4,6 +4,8 @@ var box2d = require('./Box2dWeb-2.1.a.3');
 
 var BoxProp = require('./objects').BoxProp;
 
+var b2world = new box2d.b2World(new box2d.b2Vec2(0, 0), false);
+
 var Robot = require('robot').Robot;
 var Ball = require('ball').Ball;
 
@@ -38,6 +40,19 @@ gamejs.ready(function() {
     robots.push(robotA2);
     robots.push(robotB1);
     robots.push(robotB2);
+
+    var props=[];
+    
+    //goal props
+    // back
+    props.push(new BoxProp({'size':[6, 180], 'position':[48, 181]}, b2world));
+    props.push(new BoxProp({'size':[6, 180], 'position':[681, 181]}, b2world));
+    //top    
+    props.push(new BoxProp({'size':[31, 6], 'position':[48, 181]}, b2world));
+    props.push(new BoxProp({'size':[31, 5], 'position':[650, 181]}, b2world));
+    //bottom    
+    props.push(new BoxProp({'size':[31, 6], 'position':[47, 366]}, b2world));
+    props.push(new BoxProp({'size':[31, 6], 'position':[650, 366]}, b2world));
 
     var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], function(){
         var neutralSpots = { "topleft" : [224, 185],
