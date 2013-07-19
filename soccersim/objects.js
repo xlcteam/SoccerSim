@@ -25,3 +25,5 @@ var BoxProp = function(pars){
     this.body.CreateFixture(fixdef);
     return this;  
 };
+
+exports.BoxProp = BoxProp;
