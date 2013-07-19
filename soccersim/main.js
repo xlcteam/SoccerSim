@@ -2,6 +2,8 @@ var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 var box2d = require('./Box2dWeb-2.1.a.3');
 
+var BoxProp = require('./Box2dWeb-2.1.a.3').BoxProp;
+
 var Robot = require('robot').Robot;
 var Ball = require('ball').Ball;
 
