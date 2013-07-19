@@ -103,6 +103,8 @@ gamejs.ready(function() {
             robot.draw(display);
         });
 
+        b2world.Step(msDuration/1000, 10, 8);
+
         ball.stayIn();
         ball.draw(display);
 
