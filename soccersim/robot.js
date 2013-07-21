@@ -91,11 +91,31 @@ Robot.prototype.stayIn = function(dims){
     var x = this.rect.left;
     var y = this.rect.top;
 
-    if (x - this.radius < 0) this.rect.left = 0 + this.radius;
-    else if (x + this.radius > dims[0]) this.rect.left = dims[0] - this.radius;
+    if (x - this.radius < 0) {
+        this.rect.left = 0 + this.radius;
 
-    if (y - this.radius < 0) this.rect.top = 0 + this.radius;
-    else if (y + this.radius > dims[1]) this.rect.top = dims[1] - this.radius;
+        var vec = {x: this.rect.left, y: this.rect.top};
+        this.body.SetPosition(vec);
+    } else if (x + this.radius > dims[0]) {
+        this.rect.left = dims[0] - this.radius;
+
+        var vec = {x: this.rect.left, y: this.rect.top};
+        this.body.SetPosition(vec);
+    }
+
+    if (y - this.radius < 0) {
+        this.rect.top = 0 + this.radius;
+        var vec = {x: this.rect.left, y: this.rect.top};
+        this.body.SetPosition(vec);
+ 
+    } else if (y + this.radius > dims[1]) { 
+        this.rect.top = dims[1] - this.radius;
+        var vec = {x: this.rect.left, y: this.rect.top};
+        this.body.SetPosition(vec);
+ 
+    }
+  //var vec = {x: this.rect.left, y: this.rect.top};
+  //this.body.SetPosition(vec);
 }  
 
 Robot.prototype.draw = function(surface) {
