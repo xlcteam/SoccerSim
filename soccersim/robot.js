@@ -20,7 +20,6 @@ function Wheel(pars, b2world){
 
     this.position=[pars.x, pars.y];
     this.car=pars.car;
-    this.revolving=pars.revolving;
 
     //initialize body
     var def = new box2d.b2BodyDef();
@@ -29,9 +28,9 @@ function Wheel(pars, b2world){
                 this.position[0], 
                 this.position[1])
             );
-    def.angle=this.car.body.GetAngle() + math.radians(angle) ;
+    def.angle=this.car.body.GetAngle() + math.radians(pars.angle) ;
 
-    this.body=b2world.CreateBody(def);
+    this.body = b2world.CreateBody(def);
     
     //initialize shape
     var fixdef= new box2d.b2FixtureDef;
@@ -48,9 +47,6 @@ function Wheel(pars, b2world){
     jointdef.enableLimit=true;
     jointdef.lowerTranslation = jointdef.upperTranslation = 0;
     b2world.CreateJoint(jointdef);
-
-
-
 }
 
 Wheel.prototype.setAngle = function(angle) {
@@ -110,7 +106,7 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     //body
     var def = new box2d.b2BodyDef();
     def.type = box2d.b2Body.b2_dynamicBody;
-    def.position = new box2d.b2Vec2(dims[0], dims[1]);
+    def.position = new box2d.b2Vec2(rect[0], rect[1]);
     def.angle = math.radians(this.rotation); 
     def.linearDamping = 0.15;
     def.bullet = true;
@@ -125,13 +121,14 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     fixdef.shape = new box2d.b2CircleShape(this.radius);
     this.body.CreateFixture(fixdef);
 
-    this.wheels = [];
-    var wheeldef, i;
-    for(i=0;i<pars.wheels.length;i++){
-        wheeldef = wheels[i];
-        wheeldef.car = this;
-        this.wheels.push(new Wheel(wheeldef));
-    }
+  //this.wheels = [];
+  //var wheeldef;
+  //console.log(wheels)
+  //for(var i=0;i < wheels.length;i++){
+  //    wheeldef = wheels[i];
+  //    wheeldef.car = this;
+  //    this.wheels.push(new Wheel(wheeldef, b2world));
+  //}
 
     draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
     draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
@@ -157,14 +154,6 @@ Robot.prototype.getLocalVelocity = function(){
 
 Robot.prototype.update = function(msDuration) {
     // moveIp = move in place
-    this.rect.moveIp(0, this.speed * (msDuration/1000));
-    if (this.rect.top > 600) {
-        this.speed *= -1;
-        this.image = gamejs.transform.rotate(this.originalImage, this.rotation + 180);
-    } else if (this.rect.top < 0 ) {
-        this.speed *= -1;
-        this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
-    }
 }
 
 
@@ -189,6 +178,10 @@ Robot.prototype.stayIn = function(dims){
 }  
 
 Robot.prototype.draw = function(surface) {
+    var pos = this.body.GetWorldCenter();
+    this.rect.left = pos.x;
+    this.rect.top = pos.y;
+
     var rect = new gamejs.Rect([this.rect.left-this.radius, this.rect.top-this.radius]);
     surface.blit(this.image, rect);
 }
@@ -205,8 +198,8 @@ Robot.prototype.eventResponse = function(event) {
     } else if (event.type === gamejs.event.MOUSE_MOTION) {
         var pos = event.pos;
         if (this.dragging) {
-            this.rect.left = pos[0];
-            this.rect.top = pos[1];
+            var vec = {x: pos[0], y: pos[1]};
+            this.body.SetPosition(vec);
         }
     }
 }

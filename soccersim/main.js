@@ -27,19 +27,24 @@ gamejs.ready(function() {
    
   //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
+    
+    var wheels = [{x: 46.66904, y: 46.66904, width: 0.4, height: 0.8, angle: 45},
+                  {x: 46.66904, y: -46.66904, width: 0.4, height: 0.8, angle: 135},
+                  {x: -46.66904, y: -46.66904, width: 0.4, height: 0.8, angle: 225},
+                  {x: -46.66904, y: 46.66904, width: 0.4, height: 0.8, angle: 315}];
+    
+    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000", b2world, wheels);
+  //var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a", b2world);
 
-    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000", b2world);
-    var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a", b2world);
-
-    var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
-    var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff1a", b2world);
+  //var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
+  //var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff1a", b2world);
 
 
     var robots = [];
     robots.push(robotA1);
-    robots.push(robotA2);
-    robots.push(robotB1);
-    robots.push(robotB2);
+  //robots.push(robotA2);
+  //robots.push(robotB1);
+  //robots.push(robotB2);
 
     var props=[];
     
@@ -99,15 +104,18 @@ gamejs.ready(function() {
 
         display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
         robots.forEach(function(robot){
-            robot.update(msDuration);
+            //robot.update(msDuration);
             robot.stayIn([this.width, this.height]);
             robot.draw(display);
         });
 
         b2world.Step(msDuration/1000, 10, 8);
+        b2world.ClearForces();
 
         ball.stayIn();
         ball.draw(display);
+
+        console.log(msDuration);
 
     });
 });
