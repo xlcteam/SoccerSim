@@ -14,7 +14,7 @@ var Ball = function(rect, dims, color, field, getNeutralSpotsCallback){
     draw.circle(this.image, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
 
     this.neutralSpots = { "topleft" : [224, 185],
-                          "topright": [503, 183],
+                          "topright": [503, 185],
                           "bottomleft": [224, 363],
                           "bottomright": [503, 363],
                           "center": [729/2, 546/2]};
