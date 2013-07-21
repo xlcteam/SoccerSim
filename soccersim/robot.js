@@ -10,32 +10,34 @@ function Wheel(pars, b2world){
           
     pars:
     
-    car - car this wheel belongs to
-    x - horizontal position in meters relative to car's center
-    y - vertical position in meters relative to car's center
+    robot - robot this wheel belongs to
+    x - horizontal position in meters relative to robot's center
+    y - vertical position in meters relative to robot's center
     width - width in meters
     length - length in meters
-    revolving - does this wheel revolve when steering?
-    powered - is this wheel powered?
+    angle - angle in degrees relative to the car's angle
     */
 
     this.position=[pars.x, pars.y];
     this.car=pars.car;
     this.revolving=pars.revolving;
-    this.powered=pars.powered;
 
     //initialize body
-    var def=new box2d.b2BodyDef();
+    var def = new box2d.b2BodyDef();
     def.type = box2d.b2Body.b2_dynamicBody;
-    def.position=this.car.body.GetWorldPoint(new box2d.b2Vec2(this.position[0], this.position[1]));
-    def.angle=this.car.body.GetAngle();
+    def.position = this.car.body.GetWorldPoint(new box2d.b2Vec2(
+                this.position[0], 
+                this.position[1])
+            );
+    def.angle=this.car.body.GetAngle() + math.radians(angle) ;
+
     this.body=b2world.CreateBody(def);
     
     //initialize shape
     var fixdef= new box2d.b2FixtureDef;
-    fixdef.density=1;
-    fixdef.isSensor=true; //wheel does not participate in collision calculations: resulting complications are unnecessary
-    fixdef.shape=new box2d.b2PolygonShape();
+    fixdef.density = 1;
+    fixdef.isSensor = true;
+    fixdef.shape = new box2d.b2PolygonShape();
     fixdef.shape.SetAsBox(pars.width/2, pars.length/2);
     this.body.CreateFixture(fixdef);
 
@@ -93,7 +95,7 @@ Wheel.prototype.killSidewaysVelocity=function(){
 };
 
 
-var Robot = function(rect, dims, rotation, color, b2world) {
+var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     // call superconstructor
 
     Robot.superConstructor.apply(this, arguments);
@@ -123,11 +125,19 @@ var Robot = function(rect, dims, rotation, color, b2world) {
     fixdef.shape = new box2d.b2CircleShape(this.radius);
     this.body.CreateFixture(fixdef);
 
+    this.wheels = [];
+    var wheeldef, i;
+    for(i=0;i<pars.wheels.length;i++){
+        wheeldef = wheels[i];
+        wheeldef.car = this;
+        this.wheels.push(new Wheel(wheeldef));
+    }
+
     draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
     draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
             [dims[0]/2, dims[1]/10], dims[1]/5, 0);
 
-    this.speed = 20;
+    this.speed = 0;
 
     // ever ship has its own scale
     var dims = this.originalImage.getSize();
