@@ -48,8 +48,8 @@ var Ball = function(rect, dims, color, field, b2world, getNeutralSpotsCallback){
 };
 
 Ball.prototype.moveToNS = function(spot) {
-    this.rect.left = this.neutralSpots[spot][0];
-    this.rect.top = this.neutralSpots[spot][1];
+    var vec = {x: this.neutralSpots[spot][0], y: this.neutralSpots[spot][1]};
+    this.body.SetPosition(vec);
 }
 
 Ball.prototype.moveToUNS = function() { // unoccupied neutral spot
@@ -102,7 +102,6 @@ Ball.prototype.eventResponse = function(event) {
         var pos = event.pos;
         if (this.mouseOver(pos)) {
             this.dragging = !this.dragging;
-            console.log(this.dragging);
         }
     } else if (event.type === gamejs.event.MOUSE_UP) {
         var pos = event.pos;
