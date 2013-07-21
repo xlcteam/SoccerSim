@@ -33,7 +33,7 @@ gamejs.ready(function() {
                   {x: -46.66904, y: -46.66904, width: 0.4, height: 0.8, angle: 225},
                   {x: -46.66904, y: 46.66904, width: 0.4, height: 0.8, angle: 315}];
     
-    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000", b2world, wheels);
+    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000", b2world);
     var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff007a", b2world);
 
     var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
@@ -60,6 +60,7 @@ gamejs.ready(function() {
     props.push(new BoxProp({'size':[31, 6], 'position':[650, 366]}, b2world));
 
     var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], 
+        b2world,
         function(){
             var neutralSpots = { "topleft" : [224, 185],
                               "topright": [503, 183],
@@ -95,7 +96,6 @@ gamejs.ready(function() {
         });
 
         ball.eventResponse(event);
-
     });
 
     robotA1.vec = [-20, 3];
@@ -121,7 +121,7 @@ gamejs.ready(function() {
 
         ball.draw(display);
 
-        console.log(msDuration);
+        //console.log(msDuration);
 
         b2world.ClearForces();
     });

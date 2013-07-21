@@ -1,15 +1,33 @@
+var box2d = require('./Box2dWeb-2.1.a.3');
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 
-var Ball = function(rect, dims, color, field, getNeutralSpotsCallback){
+var Ball = function(rect, dims, color, field, b2world, getNeutralSpotsCallback){
     
     //Ball.superConstructor.apply(this, arguments);
     this.color = color;
     this.rect = new gamejs.Rect(rect);
-    this.radius = dims[0]/2;    
+    this.radius = dims[0]/2;
     this.image = new gamejs.Surface(dims);
     this.unoccupiedNeutralSpots = getNeutralSpotsCallback;
     this.field = field;
+
+
+    var def = new box2d.b2BodyDef();
+    def.type = box2d.b2Body.b2_dynamicBody;
+    def.position = new box2d.b2Vec2(rect[0], rect[1]);
+    def.linearDamping = 0.15;
+    def.bullet = true;
+    def.angularDamping = 0.3;
+    this.body = b2world.CreateBody(def);
+
+    //fixture
+    var fixdef = new box2d.b2FixtureDef();
+    fixdef.density = 1.0;
+    fixdef.friction = 0.3;
+    fixdef.restitution = 0.4;
+    fixdef.shape = new box2d.b2CircleShape(this.radius);
+    this.body.CreateFixture(fixdef);
 
     draw.circle(this.image, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
 
@@ -49,7 +67,6 @@ Ball.prototype.moveToUNS = function() { // unoccupied neutral spot
     var $this = this;
 
     this.followingSpots[side].forEach(function(spot){
-        console.log(spot, unoccupiedNeutralSpots);
 
         if (moved) return;
 
@@ -85,19 +102,24 @@ Ball.prototype.eventResponse = function(event) {
         var pos = event.pos;
         if (this.mouseOver(pos)) {
             this.dragging = !this.dragging;
+            console.log(this.dragging);
         }
     } else if (event.type === gamejs.event.MOUSE_UP) {
         var pos = event.pos;
     } else if (event.type === gamejs.event.MOUSE_MOTION) {
         var pos = event.pos;
         if (this.dragging) {
-            this.rect.left = pos[0];
-            this.rect.top = pos[1];
+            var vec = {x: pos[0], y: pos[1]};
+            this.body.SetPosition(vec);
         }
     }
 }
 
 Ball.prototype.draw = function(surface) {
+    var pos = this.body.GetWorldCenter();
+    this.rect.left = pos.x;
+    this.rect.top = pos.y;
+
     var rect = new gamejs.Rect([this.rect.left-this.radius, this.rect.top-this.radius]);
     surface.blit(this.image, rect);
 }
