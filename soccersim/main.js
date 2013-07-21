@@ -34,17 +34,17 @@ gamejs.ready(function() {
                   {x: -46.66904, y: 46.66904, width: 0.4, height: 0.8, angle: 315}];
     
     var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000", b2world, wheels);
-  //var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff001a", b2world);
+    var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff007a", b2world);
 
-  //var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
-  //var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff1a", b2world);
+    var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
+    var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff7a", b2world);
 
 
     var robots = [];
     robots.push(robotA1);
-  //robots.push(robotA2);
-  //robots.push(robotB1);
-  //robots.push(robotB2);
+    robots.push(robotA2);
+    robots.push(robotB1);
+    robots.push(robotB2);
 
     var props=[];
     
@@ -59,32 +59,33 @@ gamejs.ready(function() {
     props.push(new BoxProp({'size':[31, 6], 'position':[47, 366]}, b2world));
     props.push(new BoxProp({'size':[31, 6], 'position':[650, 366]}, b2world));
 
-    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], function(){
-        var neutralSpots = { "topleft" : [224, 185],
-                          "topright": [503, 183],
-                          "bottomleft": [224, 363],
-                          "bottomright": [503, 363],
-                          "center": [729/2, 546/2]};
+    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], 
+        function(){
+            var neutralSpots = { "topleft" : [224, 185],
+                              "topright": [503, 183],
+                              "bottomleft": [224, 363],
+                              "bottomright": [503, 363],
+                              "center": [729/2, 546/2]};
 
-        var unoccupied = [];
+            var unoccupied = [];
 
-        for (spot in neutralSpots){
-            var occupied = false;
-            robots.forEach(function(robot){
-                var dx = neutralSpots[spot][0] - robot.rect.left;
-                var dy = neutralSpots[spot][1] - robot.rect.top;
-                
-                if (Math.sqrt(dx*dx+dy*dy) < robot.radius + ball.radius){
-                    occupied = true;
+            for (spot in neutralSpots){
+                var occupied = false;
+                robots.forEach(function(robot){
+                    var dx = neutralSpots[spot][0] - robot.rect.left;
+                    var dy = neutralSpots[spot][1] - robot.rect.top;
+                    
+                    if (Math.sqrt(dx*dx+dy*dy) < robot.radius + ball.radius){
+                        occupied = true;
+                    }
+                });
+                if (!occupied){
+                    unoccupied.push(spot);
                 }
-            });
-            if (!occupied){
-                unoccupied.push(spot);
             }
-        }
-       
-        return unoccupied;
-    });
+           
+            return unoccupied;
+        });
 
     gamejs.onEvent(function(event) {
         // event handling
@@ -97,6 +98,8 @@ gamejs.ready(function() {
 
     });
 
+    robotA1.vec = [-20, 3];
+
     gamejs.onTick(function(msDuration) {
         // game loop
         display.fill("#047a01");
@@ -104,18 +107,22 @@ gamejs.ready(function() {
 
         display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
         robots.forEach(function(robot){
-            //robot.update(msDuration);
+            robot.update(msDuration);
             robot.stayIn([this.width, this.height]);
-            robot.draw(display);
         });
 
         b2world.Step(msDuration/1000, 10, 8);
-        b2world.ClearForces();
 
         ball.stayIn();
+
+        robots.forEach(function(robot){
+            robot.draw(display);
+        });
+
         ball.draw(display);
 
         console.log(msDuration);
 
+        b2world.ClearForces();
     });
 });
