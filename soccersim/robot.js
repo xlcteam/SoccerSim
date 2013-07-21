@@ -3,6 +3,96 @@ var draw = require('gamejs/draw');
 var math = require('gamejs/utils/math');
 var box2d = require('./Box2dWeb-2.1.a.3');
 
+
+function Wheel(pars, b2world){
+    /*
+    wheel object 
+          
+    pars:
+    
+    car - car this wheel belongs to
+    x - horizontal position in meters relative to car's center
+    y - vertical position in meters relative to car's center
+    width - width in meters
+    length - length in meters
+    revolving - does this wheel revolve when steering?
+    powered - is this wheel powered?
+    */
+
+    this.position=[pars.x, pars.y];
+    this.car=pars.car;
+    this.revolving=pars.revolving;
+    this.powered=pars.powered;
+
+    //initialize body
+    var def=new box2d.b2BodyDef();
+    def.type = box2d.b2Body.b2_dynamicBody;
+    def.position=this.car.body.GetWorldPoint(new box2d.b2Vec2(this.position[0], this.position[1]));
+    def.angle=this.car.body.GetAngle();
+    this.body=b2world.CreateBody(def);
+    
+    //initialize shape
+    var fixdef= new box2d.b2FixtureDef;
+    fixdef.density=1;
+    fixdef.isSensor=true; //wheel does not participate in collision calculations: resulting complications are unnecessary
+    fixdef.shape=new box2d.b2PolygonShape();
+    fixdef.shape.SetAsBox(pars.width/2, pars.length/2);
+    this.body.CreateFixture(fixdef);
+
+    //create joint to connect wheel to body
+    var jointdef=new box2d.b2PrismaticJointDef();
+    jointdef.Initialize(this.car.body, this.body, 
+            this.body.GetWorldCenter(), new box2d.b2Vec2(1, 0));
+    jointdef.enableLimit=true;
+    jointdef.lowerTranslation = jointdef.upperTranslation = 0;
+    b2world.CreateJoint(jointdef);
+
+
+
+}
+
+Wheel.prototype.setAngle = function(angle) {
+    /*
+       angle - wheel angle relative to car, in degrees
+       */
+    this.body.SetAngle(this.car.body.GetAngle()+math.radians(angle));
+};
+
+Wheel.prototype.getLocalVelocity=function(){
+    /*returns get velocity vector relative to car
+    */
+    var res=this.car.body.GetLocalVector(this.car.body.GetLinearVelocityFromLocalPoint(new box2d.b2Vec2(this.position[0], this.position[1])));
+    return [res.x, res.y];
+};
+
+Wheel.prototype.getDirectionVector=function(){
+    /*
+       returns a world unit vector pointing in the direction this wheel is moving
+       */
+    return vectors.rotate((this.getLocalVelocity()[1]>0) ? [0, 1]:[0, -1] , this.body.GetAngle()) ;
+};
+
+
+Wheel.prototype.getKillVelocityVector=function(){
+    /*
+       substracts sideways velocity from this wheel's velocity vector and returns the remaining front-facing velocity vector
+       */
+    var velocity=this.body.GetLinearVelocity();
+    var sideways_axis=this.getDirectionVector();
+    var dotprod=vectors.dot([velocity.x, velocity.y], sideways_axis);
+    return [sideways_axis[0]*dotprod, sideways_axis[1]*dotprod];
+};
+
+Wheel.prototype.killSidewaysVelocity=function(){
+    /*
+       removes all sideways velocity from this wheels velocity
+       */
+    var kv=this.getKillVelocityVector();
+    this.body.SetLinearVelocity(new box2d.b2Vec2(kv[0], kv[1]));
+
+};
+
+
 var Robot = function(rect, dims, rotation, color, b2world) {
     // call superconstructor
 
@@ -26,7 +116,7 @@ var Robot = function(rect, dims, rotation, color, b2world) {
     this.body = b2world.CreateBody(def);
 
     //fixture
-    var fixdef= new box2d.b2FixtureDef();
+    var fixdef = new box2d.b2FixtureDef();
     fixdef.density = 1.0;
     fixdef.friction = 0.3;
     fixdef.restitution = 0.4;
@@ -35,9 +125,9 @@ var Robot = function(rect, dims, rotation, color, b2world) {
 
     draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
     draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
-           [dims[0]/2, dims[1]/10], dims[1]/5, 0);
+            [dims[0]/2, dims[1]/10], dims[1]/5, 0);
 
-    this.speed = 20 + (40 * Math.random());
+    this.speed = 20;
 
     // ever ship has its own scale
     var dims = this.originalImage.getSize();
@@ -47,23 +137,33 @@ var Robot = function(rect, dims, rotation, color, b2world) {
 };
 // inherit (actually: set prototype)
 gamejs.utils.objects.extend(Robot, gamejs.sprite.Sprite);
-Robot.prototype.update = function(msDuration) {
-   // moveIp = move in place
-   this.rect.moveIp(0, this.speed * (msDuration/1000));
-   if (this.rect.top > 600) {
-      this.speed *= -1;
-      this.image = gamejs.transform.rotate(this.originalImage, this.rotation + 180);
-   } else if (this.rect.top < 0 ) {
-      this.speed *= -1;
-      this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
-   }
+
+Robot.prototype.getLocalVelocity = function(){
+    var retv = this.body.GetLocalVector(
+            this.body.GetLinearVelocityFromLocalPoint(new box2d.b2Vec2(0, 0))
+            );
+    return [retv.x, retv.y];
 }
+
+Robot.prototype.update = function(msDuration) {
+    // moveIp = move in place
+    this.rect.moveIp(0, this.speed * (msDuration/1000));
+    if (this.rect.top > 600) {
+        this.speed *= -1;
+        this.image = gamejs.transform.rotate(this.originalImage, this.rotation + 180);
+    } else if (this.rect.top < 0 ) {
+        this.speed *= -1;
+        this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
+    }
+}
+
+
 
 Robot.prototype.mouseOver = function(pos) {
     var dx = this.rect.left - pos[0];
     var dy = this.rect.top - pos[1];
     //console.log(this.radius, Math.sqrt(dx*dx+dy*dy));
-    
+
     return Math.sqrt(dx*dx+dy*dy) < this.radius;
 }
 

@@ -99,6 +99,7 @@ gamejs.ready(function() {
 
         display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
         robots.forEach(function(robot){
+            robot.update(msDuration);
             robot.stayIn([this.width, this.height]);
             robot.draw(display);
         });
