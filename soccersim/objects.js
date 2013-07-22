@@ -9,6 +9,7 @@ var BoxProp = function(pars, b2world){
      position - array [x, y], in world meters, of center
     */
     this.size=pars.size;
+    this.pos=pars.position;
     
     //initialize body
     var bdef=new box2d.b2BodyDef();

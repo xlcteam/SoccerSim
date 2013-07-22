@@ -50,15 +50,15 @@ gamejs.ready(function() {
     
     //goal props
     // back
-    props.push(new BoxProp({'size':[6, 180], 'position':[48, 181]}, b2world));
-    props.push(new BoxProp({'size':[6, 180], 'position':[681, 181]}, b2world));
+    props.push(new BoxProp({'size':[6, 180], 'position':[50, 272]}, b2world));
+    props.push(new BoxProp({'size':[6, 180], 'position':[676, 272]}, b2world));
     //top    
-    props.push(new BoxProp({'size':[31, 6], 'position':[48, 181]}, b2world));
-    props.push(new BoxProp({'size':[31, 5], 'position':[650, 181]}, b2world));
+    props.push(new BoxProp({'size':[37, 7], 'position':[66, 183]}, b2world));
+    props.push(new BoxProp({'size':[37, 7], 'position':[660, 183]}, b2world));
     //bottom    
-    props.push(new BoxProp({'size':[31, 6], 'position':[47, 366]}, b2world));
-    props.push(new BoxProp({'size':[31, 6], 'position':[650, 366]}, b2world));
-
+    props.push(new BoxProp({'size':[37, 7], 'position':[66, 364]}, b2world));
+    props.push(new BoxProp({'size':[37, 7], 'position':[660, 364]}, b2world));
+    
     var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], 
         b2world,
         function(){
@@ -98,7 +98,7 @@ gamejs.ready(function() {
         ball.eventResponse(event);
     });
 
-    robotA1.vec = [-20, 3];
+    robotA1.vec = [-20, 0];
 
     gamejs.onTick(function(msDuration) {
         // game loop
@@ -110,6 +110,24 @@ gamejs.ready(function() {
             robot.update(msDuration);
             robot.stayIn([this.width, this.height]);
         });
+
+        // debug draw of goals
+      //props.forEach(function(prop){
+      //    var list = prop.body.GetFixtureList();
+      //    var xf = prop.body.m_xf;
+      //    var v = prop.body.GetFixtureList().GetShape().GetVertices();
+
+      //    var c = prop.body.GetFixtureList().GetShape().GetVertexCount();
+      //    var lines = new Array(c);
+      //    var math = box2d.Box2D.Common.Math.b2Math;
+
+      //    for (var i=0; i<c; i++) {
+      //        var o = math.MulX(xf, v[i]);
+      //        lines[i] = [o.x, o.y];
+      //    }
+
+      //    draw.lines(display, "#ff0000", true, lines, 1);
+      //});
 
         b2world.Step(msDuration/1000, 10, 8);
 
