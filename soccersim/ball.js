@@ -50,6 +50,7 @@ var Ball = function(rect, dims, color, field, b2world, getNeutralSpotsCallback){
 Ball.prototype.moveToNS = function(spot) {
     var vec = {x: this.neutralSpots[spot][0], y: this.neutralSpots[spot][1]};
     this.body.SetPosition(vec);
+    this.body.SetLinearVelocity(new box2d.b2Vec2(0, 0));
 }
 
 Ball.prototype.moveToUNS = function() { // unoccupied neutral spot
