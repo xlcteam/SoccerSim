@@ -33,14 +33,6 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     fixdef.shape = new box2d.b2CircleShape(this.radius);
     this.body.CreateFixture(fixdef);
 
-  //this.wheels = [];
-  //var wheeldef;
-  //for(var i=0;i < wheels.length;i++){
-  //    wheeldef = wheels[i];
-  //    wheeldef.car = this;
-  //    this.wheels.push(new Wheel(wheeldef, b2world));
-  //}
-
     draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
     draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
             [dims[0]/2, dims[1]/10], dims[1]/5, 0);
@@ -64,12 +56,7 @@ Robot.prototype.getLocalVelocity = function(){
 }
 
 Robot.prototype.update = function(msDuration) {
-    // moveIp = move in place
-  //var fvect = [1, 0]; 
-  //var vector = new box2d.b2Vec2(fvect[0], fvect[1]);
-  //var position = this.body.GetWorldCenter();
-  //this.body.ApplyForce(this.body.GetWorldVector(vector), position);
-    
+   
     if (this.dragging) {
         this.body.SetLinearVelocity(new box2d.b2Vec2(0, 0));
     } else {
@@ -114,8 +101,6 @@ Robot.prototype.stayIn = function(dims){
         this.body.SetPosition(vec);
  
     }
-  //var vec = {x: this.rect.left, y: this.rect.top};
-  //this.body.SetPosition(vec);
 }  
 
 Robot.prototype.draw = function(surface) {
