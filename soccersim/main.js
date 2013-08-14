@@ -63,7 +63,7 @@ gamejs.ready(function() {
         b2world,
         function(){
             var neutralSpots = { "topleft" : [224, 185],
-                              "topright": [503, 183],
+                              "topright": [503, 185],
                               "bottomleft": [224, 363],
                               "bottomright": [503, 363],
                               "center": [729/2, 546/2]};
