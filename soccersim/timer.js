@@ -25,5 +25,5 @@ Timer.prototype.start = function (){
 }
 
 Timer.prototype.returnTime = function(){
-    return [mins, secs, millis];
+    return [this.mins, this.secs, this.millis];
 };
