@@ -22,7 +22,7 @@ Timer.prototype.start = function (){
         }
     }
 
-    setInterval(this.start(), 50);
+    setInterval(this.start, 50);
 }
 
 Timer.prototype.returnTime = function(){
