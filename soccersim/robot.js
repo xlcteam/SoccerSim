@@ -10,6 +10,7 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     this.rotation = rotation;
     this.color = color;
     this.dragging = false;
+    this.out = false;
 
     this.originalImage = new gamejs.Surface(dims);
 
