@@ -124,7 +124,7 @@ Robot.prototype.eventResponse = function(event) {
         var pos = event.pos;
     } else if (event.type === gamejs.event.MOUSE_MOTION) {
         var pos = event.pos;
-        console.log(pos);
+        //console.log(pos);
         if (this.dragging) {
             var vec = {x: pos[0], y: pos[1]};
             this.body.SetPosition(vec);
