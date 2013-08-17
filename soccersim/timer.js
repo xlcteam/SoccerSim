@@ -10,9 +10,10 @@ Timer.prototype.start = function (){
     this.millis -= 0.5;
 
     if (this.millis < 0){
-        this.millis = 0;
+        this.millis = 10;
         this.secs--;
         if (this.secs < 0){
+            this.secs = 59;
             this.mins--;
             if (this.mins < 0){
                 this.mins = this.secs = this.millis = 0;
@@ -25,5 +26,11 @@ Timer.prototype.start = function (){
 }
 
 Timer.prototype.returnTime = function(){
-    return [this.mins, this.secs, this.millis];
+
+    function pad2(number)
+    {
+      return (number < 10 ? '0' : '') + number;
+    }
+
+    return [pad2(this.mins), pad2(this.secs), this.millis];
 };
