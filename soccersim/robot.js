@@ -52,8 +52,8 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     this.light_sensors.push(new LightSensor(this, [0,  5]));
 
     this.ultrasonic_sensors = []
-    this.ultrasonic_sensors.push(new UltraSonicSensor(this, [0, -10]));
-    this.ultrasonic_sensors.push(new UltraSonicSensor(this, [0,  10]));
+    this.ultrasonic_sensors.push(new UltraSonicSensor(this, [0, -25]));
+    this.ultrasonic_sensors.push(new UltraSonicSensor(this, [0,  25]));
 
     return this;
 };
