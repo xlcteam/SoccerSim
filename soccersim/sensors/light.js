@@ -1,5 +1,6 @@
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
+var surfacearray = require('gamejs/surfacearray');
 
 var LightSensor = function(robot, pos){
     this.robot = robot;
@@ -15,7 +16,7 @@ LightSensor.prototype.draw = function (surface){
 }
 
 LightSensor.prototype.read = function() {
-
+    var color = surfacearray.get(this.x, this.y);
 }
 
 exports.LightSensor = LightSensor;

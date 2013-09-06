@@ -48,8 +48,8 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     this.rect = new gamejs.Rect(rect);
 
     this.light_sensors = [];
-    this.light_sensors.push(new LightSensor(this, [0, -5]));
-    this.light_sensors.push(new LightSensor(this, [0,  5]));
+    this.light_sensors.push(new LightSensor(this, [0, -15]));
+    this.light_sensors.push(new LightSensor(this, [0,  15]));
 
     this.ultrasonic_sensors = []
     this.ultrasonic_sensors.push(new UltraSonicSensor(this, [0, -25]));
