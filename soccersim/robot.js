@@ -13,10 +13,6 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     this.dragging = false;
     this.out = false;
 
-    this.light_sensors = [];
-    this.light_sensors.push(new LightSensor(this, [0, -5]));
-    this.light_sensors.push(new LightSensor(this, [0,  5]));
-
     this.originalImage = new gamejs.Surface(dims);
 
     this.radius = dims[0]/2;
@@ -49,6 +45,11 @@ var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     var dims = this.originalImage.getSize();
     this.image = gamejs.transform.rotate(this.originalImage, this.rotation);
     this.rect = new gamejs.Rect(rect);
+
+    this.light_sensors = [];
+    this.light_sensors.push(new LightSensor(this, [0, -5]));
+    this.light_sensors.push(new LightSensor(this, [0,  5]));
+
     return this;
 };
 // inherit (actually: set prototype)
@@ -117,8 +118,8 @@ Robot.prototype.draw = function(surface) {
     var rect = new gamejs.Rect([this.rect.left-this.radius, this.rect.top-this.radius]);
     surface.blit(this.image, rect);
 
-    light_sensors.forEach(function(s){
-        s.draw(display);
+    this.light_sensors.forEach(function(s){
+        s.draw(surface);
     });
 }
 
