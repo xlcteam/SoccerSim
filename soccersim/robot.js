@@ -3,6 +3,8 @@ var draw = require('gamejs/draw');
 var math = require('gamejs/utils/math');
 var box2d = require('./Box2dWeb-2.1.a.3');
 
+var LightSensor = require('./sensors/light');
+
 var Robot = function(rect, dims, rotation, color, b2world, wheels) {
     // call superconstructor
 
