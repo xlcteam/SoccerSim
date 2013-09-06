@@ -151,4 +151,8 @@ Robot.prototype.eventResponse = function(event) {
     }
 }
 
+Robot.prototype.point_whitin = function(point) {
+    return this.mouseOver(point);    
+}
+
 exports.Robot = Robot;

@@ -27,4 +27,15 @@ var BoxProp = function(pars, b2world){
     return this;  
 };
 
+BoxProp.prototype.point_whitin = function(point) {
+    if (point[0] >= this.pos[0] && point[0] <= this.pos[0] + this.size[0] &&
+        point[1] >= this.pos[1] && point[1] <= this.pos[1] + this.size[1]) {
+        return true;
+    } else {
+        return false; 
+    }
+}
+
+
+
 exports.BoxProp = BoxProp;

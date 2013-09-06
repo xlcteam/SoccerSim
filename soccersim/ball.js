@@ -124,4 +124,10 @@ Ball.prototype.draw = function(surface) {
     surface.blit(this.image, rect);
 }
 
+Ball.prototype.point_whitin = function(point) {
+    return this.mouseOver(point);    
+}
+
+
+
 exports.Ball = Ball;
