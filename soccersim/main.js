@@ -39,7 +39,6 @@ gamejs.ready(function() {
     var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
     var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff7a", b2world);
 
-
     var robots = [];
     robots.push(robotA1);
     robots.push(robotA2);
