@@ -15,6 +15,7 @@ var Ball = function(env, rect, dims, color, field, b2world, getNeutralSpotsCallb
     this.unoccupiedNeutralSpots = getNeutralSpotsCallback;
     this.field = field;
 
+    env.add_block_color(this.color);
 
     var def = new box2d.b2BodyDef();
     def.type = box2d.b2Body.b2_dynamicBody;
