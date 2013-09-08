@@ -1,5 +1,4 @@
 
-
 var Env = function(teamA, teamB) {
     this.teamA = teamA;
     this.teamB = teamB;

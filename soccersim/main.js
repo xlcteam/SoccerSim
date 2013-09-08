@@ -19,6 +19,9 @@ gamejs.ready(function() {
 
     var env = new Env(teamA, teamB);
 
+    // added the color of goals
+    env.add_block_color("#000000");
+
     var display = gamejs.display.setMode([this.width, this.height]) //, 
         /*gamejs.display.DISABLESMOOTHING | gamejs.display.FULLSCREEN); */
   //display.blit(
