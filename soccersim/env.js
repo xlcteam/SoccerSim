@@ -1,8 +1,10 @@
 
-var Env = function(teamA, teamB) {
+var Env = function(teamA, teamB, field_size) {
     this.teamA = teamA;
     this.teamB = teamB;
     this.block_colors = [];
+
+    this.field_size = field_size;
 
     var teamAscore = 0;
     var teamBscore = 0;
@@ -23,7 +25,7 @@ var Env = function(teamA, teamB) {
 
 
 Env.prototype.add_block_color = function(color) {
-    this.block_colors.append(color);
+    this.block_colors.push(color);
 }
 
 
