@@ -6,7 +6,6 @@ var UltraSonicSensor = function(robot, pos, angle) {
     this.pos = pos;
     this.x = this.robot.rect.left + this.pos[0];
     this.y = this.robot.rect.top + this.pos[1]
-
 };
 
 UltraSonicSensor.prototype.draw = function(surface) {
