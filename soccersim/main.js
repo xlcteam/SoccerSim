@@ -9,6 +9,8 @@ var b2world = new box2d.b2World(new box2d.b2Vec2(0, 0), false);
 var Robot = require('robot').Robot;
 var Ball = require('ball').Ball;
 
+var Env = require('env').Env;
+
 gamejs.preload(['img/field.png']);
 
 gamejs.ready(function() {
