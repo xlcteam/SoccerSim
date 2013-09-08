@@ -6,10 +6,9 @@ var BoxProp = require('./objects').BoxProp;
 
 var b2world = new box2d.b2World(new box2d.b2Vec2(0, 0), false);
 
+var Env = require('env').Env;
 var Robot = require('robot').Robot;
 var Ball = require('ball').Ball;
-
-var Env = require('env').Env;
 
 gamejs.preload(['img/field.png']);
 
@@ -17,6 +16,8 @@ gamejs.ready(function() {
 
     this.width = 729;
     this.height = 546;
+
+    var env = new Env(teamA, teamB);
 
     var display = gamejs.display.setMode([this.width, this.height]) //, 
         /*gamejs.display.DISABLESMOOTHING | gamejs.display.FULLSCREEN); */
@@ -35,11 +36,11 @@ gamejs.ready(function() {
                   {x: -46.66904, y: -46.66904, width: 0.4, height: 0.8, angle: 225},
                   {x: -46.66904, y: 46.66904, width: 0.4, height: 0.8, angle: 315}];
     
-    var robotA1 = new Robot([140, 200], [21*3, 21*3], 90, "#ff0000", b2world);
-    var robotA2 = new Robot([140, 356], [21*3, 21*3], 90, "#ff007a", b2world);
+    var robotA1 = new Robot(env, [140, 200], [21*3, 21*3], 90, "#ff0000", b2world);
+    var robotA2 = new Robot(env, [140, 356], [21*3, 21*3], 90, "#ff007a", b2world);
 
-    var robotB1 = new Robot([580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
-    var robotB2 = new Robot([580, 356], [21*3, 21*3], 270, "#00ff7a", b2world);
+    var robotB1 = new Robot(env, [580, 200], [21*3, 21*3], 270, "#00ff00", b2world);
+    var robotB2 = new Robot(env, [580, 356], [21*3, 21*3], 270, "#00ff7a", b2world);
 
     var robots = [];
     robots.push(robotA1);
@@ -51,16 +52,16 @@ gamejs.ready(function() {
     
     //goal props
     // back
-    props.push(new BoxProp({'size':[6, 180], 'position':[50, 272]}, b2world));
-    props.push(new BoxProp({'size':[6, 180], 'position':[676, 272]}, b2world));
+    props.push(new BoxProp(env, {'size':[6, 180], 'position':[50, 272]}, b2world));
+    props.push(new BoxProp(env, {'size':[6, 180], 'position':[676, 272]}, b2world));
     //top    
-    props.push(new BoxProp({'size':[37, 7], 'position':[66, 183]}, b2world));
-    props.push(new BoxProp({'size':[37, 7], 'position':[660, 183]}, b2world));
+    props.push(new BoxProp(env, {'size':[37, 7], 'position':[66, 183]}, b2world));
+    props.push(new BoxProp(env, {'size':[37, 7], 'position':[660, 183]}, b2world));
     //bottom    
-    props.push(new BoxProp({'size':[37, 7], 'position':[66, 364]}, b2world));
-    props.push(new BoxProp({'size':[37, 7], 'position':[660, 364]}, b2world));
+    props.push(new BoxProp(env, {'size':[37, 7], 'position':[66, 364]}, b2world));
+    props.push(new BoxProp(env, {'size':[37, 7], 'position':[660, 364]}, b2world));
     
-    var ball = new Ball([364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], 
+    var ball = new Ball(env, [364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], 
         b2world,
         function(){
             var neutralSpots = { "topleft" : [224, 185],
