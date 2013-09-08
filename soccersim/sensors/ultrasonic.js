@@ -1,6 +1,5 @@
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
-var SurfaceArray = require('gamejs/surfacearray');
 
 var UltraSonicSensor = function(robot, pos, angle) {
     this.robot = robot;
@@ -18,9 +17,6 @@ UltraSonicSensor.prototype.draw = function(surface) {
 
 UltraSonicSensor.prototype.read = function() {
     var size = this.robot.env.field_size;
-    function is_in(x, y) {
-        return (x >= 0 && y >= 0 && x <= size[0] && y <= size[1]) ? true : false;
-    }       
 
     var x = this.robot.rect.left;
     var y = this.robot.rect.top;
@@ -29,19 +25,20 @@ UltraSonicSensor.prototype.read = function() {
 
     var angle = this.angle / (Math.PI / 180.0);
 
-    var srfs = new SurfaceArray(this.robot.env.display);
 
-    while (is_in(x, y)) {
+    while (true) {
         l += 1;
 
-        var rgba = srfs.get(x, y); 
-        console.log(rgba);
+        var rgba = this.robot.env.surface.get(x, y); 
+        if (rgba[0] == undefined) {
+            break; 
+        }
 
         x += Math.sin(angle);
-        y += -Math.con(angle);
+        y += -Math.cos(angle);
     }
 
-    return [x, y];
+    return l;
 }
 
 exports.UltraSonicSensor = UltraSonicSensor

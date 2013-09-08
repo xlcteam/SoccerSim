@@ -14,24 +14,25 @@ gamejs.preload(['img/field.png']);
 
 gamejs.ready(function() {
 
-    this.width = 729;
-    this.height = 546;
+    var width = 729;
+    var height = 546;
 
-    var env = new Env(teamA, teamB);
-
-    // added the color of goals
-    env.add_block_color("#000000");
-
-    var display = gamejs.display.setMode([this.width, this.height]) //, 
+    var display = gamejs.display.setMode([width, height]) //, 
         /*gamejs.display.DISABLESMOOTHING | gamejs.display.FULLSCREEN); */
   //display.blit(
   //    (new gamejs.font.Font('30px Sans-serif')).render('Hello World')
   //);
+  //
+
+    var env = new Env(teamA, teamB, [width, height], display);
+
+    // added the color of goals
+    env.add_block_color("#000000");
 
     gamejs.display.setCaption("Soccer Simulation");
 
    
-  //var rect = new gamejs.Rect([0, 0], [this.width, 50]);
+  //var rect = new gamejs.Rect([0, 0], [env.width, 50]);
   //draw.rect(display, "#FFFFFF", rect, 100);
     
     var wheels = [{x: 46.66904, y: 46.66904, width: 0.4, height: 0.8, angle: 45},
@@ -64,7 +65,7 @@ gamejs.ready(function() {
     props.push(new BoxProp(env, {'size':[37, 7], 'position':[66, 364]}, b2world));
     props.push(new BoxProp(env, {'size':[37, 7], 'position':[660, 364]}, b2world));
     
-    var ball = new Ball(env, [364, 273], [8*3, 8*3], "#644B51", [this.width, this.height], 
+    var ball = new Ball(env, [364, 273], [8*3, 8*3], "#644B51", [env.width, env.height], 
         b2world,
         function(){
             var neutralSpots = { "topleft" : [224, 185],
@@ -110,10 +111,11 @@ gamejs.ready(function() {
         display.fill("#047a01");
         this.field = gamejs.image.load("img/field.png");
 
-        display.blit(this.field, [(this.width-729)/2, (this.height-546)/2]);
+        display.blit(this.field, [(env.width-729)/2, (env.height-546)/2]);
         robots.forEach(function(robot){
             robot.update(msDuration);
-            robot.stayIn([this.width, this.height]);
+            robot.stayIn([env.width, env.height]);
+            robot.ultrasonic_sensors[0].read();
         });
 
         // debug draw of goals
