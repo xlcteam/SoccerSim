@@ -1,6 +1,6 @@
 var box2d = require('./Box2dWeb-2.1.a.3');
 
-var BoxProp = function(pars, b2world){
+var BoxProp = function(env, pars, b2world){
     /*
    static rectangle shaped prop
      
@@ -8,6 +8,9 @@ var BoxProp = function(pars, b2world){
      size - array [width, height]
      position - array [x, y], in world meters, of center
     */
+
+    this.env = env;
+
     this.size=pars.size;
     this.pos=pars.position;
     

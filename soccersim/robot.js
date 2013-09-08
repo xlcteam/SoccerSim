@@ -5,10 +5,11 @@ var box2d = require('./Box2dWeb-2.1.a.3');
 var LightSensor = require('./sensors/light').LightSensor;
 var UltraSonicSensor = require('./sensors/ultrasonic').UltraSonicSensor;
 
-var Robot = function(rect, dims, rotation, color, b2world, wheels) {
+var Robot = function(env, rect, dims, rotation, color, b2world, wheels) {
     // call superconstructor
 
     Robot.superConstructor.apply(this, arguments);
+    this.env = env;
     this.rotation = rotation;
     this.color = color;
     this.dragging = false;

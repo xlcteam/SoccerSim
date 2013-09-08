@@ -2,9 +2,12 @@ var box2d = require('./Box2dWeb-2.1.a.3');
 var gamejs = require('gamejs');
 var draw = require('gamejs/draw');
 
-var Ball = function(rect, dims, color, field, b2world, getNeutralSpotsCallback){
+var Ball = function(env, rect, dims, color, field, b2world, getNeutralSpotsCallback){
     
     //Ball.superConstructor.apply(this, arguments);
+
+    this.env = env;
+
     this.color = color;
     this.rect = new gamejs.Rect(rect);
     this.radius = dims[0]/2;
