@@ -115,7 +115,8 @@ gamejs.ready(function() {
         robots.forEach(function(robot){
             robot.update(msDuration);
             robot.stayIn([env.width, env.height]);
-            robot.ultrasonic_sensors[0].read();
+          //robot.ultrasonic_sensors[0].read();
+          //robot.ultrasonic_sensors[1].read();
         });
 
         // debug draw of goals
