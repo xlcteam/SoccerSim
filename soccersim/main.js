@@ -126,9 +126,11 @@ gamejs.ready(function() {
 
           //robot.ultrasonic_sensors[0].read();
           //robot.ultrasonic_sensors[1].read();
+          //robot.light_sensors[0].read()
+          //robot.light_sensors[1].read()
         });
 
-        console.log(robotA1.light_sensors[0].read())
+        //console.log(robotA1.light_sensors[0].read())
 
         // debug draw of goals
       //props.forEach(function(prop){
