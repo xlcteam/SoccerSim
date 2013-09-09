@@ -60,9 +60,7 @@ UltraSonicSensor.prototype.read = function() {
         y += -Math.cos(angle);
     }
 
-    //console.log(l)
-
-    return l;
+    return Math.round(l / 3);
 }
 
 exports.UltraSonicSensor = UltraSonicSensor
