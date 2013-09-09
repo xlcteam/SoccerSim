@@ -41,13 +41,12 @@ UltraSonicSensor.prototype.read = function() {
         this.robot.env.objects.forEach(function(object){
             if (object.rect.left == robot.rect.left &&
                 object.rect.top == robot.rect.top) {
-                
-                return
+                return;
             }
 
 
-            if (object.point_whitin(x, y)) {
-                    touched = true; 
+            if (object.point_whitin([x, y])) {
+                touched = true;
             }
 
         });
@@ -61,7 +60,7 @@ UltraSonicSensor.prototype.read = function() {
         y += -Math.cos(angle);
     }
 
-    console.log(l)
+    //console.log(l)
 
     return l;
 }
