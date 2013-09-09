@@ -26,7 +26,7 @@ LightSensor.prototype.read = function() {
     }
 
     var color = this.robot.env.surface.get(this.x, this.y).slice(0, 3);
-    return (0.5 * max(color)) + (0.5 * min(color));
+    return Math.round(((0.5 * max(color)) + (0.5 * min(color)))/ 2.55);
 }
 
 exports.LightSensor = LightSensor;
