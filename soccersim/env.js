@@ -30,14 +30,16 @@ var Env = function(teamA, teamB, field_size, display) {
 
 };
 
+Env.prototype.update_surface = function() {
+    this.surface = new gamejs.surfacearray.SurfaceArray(this.display);
+}
 
 Env.prototype.add_block_color = function(color) {
     var rgb_color = new Array(4);
-    rgb_color[0] = parseInt(color[1], 16) * 256 + parseInt(color[2]);
-    rgb_color[1] = parseInt(color[3], 16) * 256 + parseInt(color[4]);
-    rgb_color[2] = parseInt(color[5], 16) * 256 + parseInt(color[6]);
-    rgb_color[3] = 1;
-    console.log(rgb_color);
+    rgb_color[0] = parseInt(color[1], 16) * 16 + parseInt(color[2], 16);
+    rgb_color[1] = parseInt(color[3], 16) * 16 + parseInt(color[4], 16);
+    rgb_color[2] = parseInt(color[5], 16) * 16 + parseInt(color[6], 16);
+    rgb_color[3] = 255;
     this.block_colors.push(rgb_color);
 }
 

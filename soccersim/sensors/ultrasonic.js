@@ -16,7 +16,6 @@ UltraSonicSensor.prototype.draw = function(surface) {
 }
 
 UltraSonicSensor.prototype.read = function() {
-    var size = this.robot.env.field_size;
 
     var x = this.robot.rect.left;
     var y = this.robot.rect.top;
@@ -25,19 +24,24 @@ UltraSonicSensor.prototype.read = function() {
 
     var angle = this.angle / (Math.PI / 180.0);
 
+    var tx = x + 800 * Math.sin(angle);
+    var ty = y - 800 * Math.cos(angle);
 
-    while (true) {
+    var size = this.robot.env.field_size;
+    function is_in (x, y) {
+        return (x >= 0 && y >= 0 && x <= size[0] && y <= size[1]) ? true : false; 
+    }
+
+    while (is_in(x, y)) {
         l += 1;
 
-        var rgba = this.robot.env.surface.get(x, y); 
-        console.log(rgba);
-        if (rgba[0] == undefined) {
-            break; 
-        }
+
 
         x += Math.sin(angle);
         y += -Math.cos(angle);
     }
+
+    console.log(l)
 
     return l;
 }
