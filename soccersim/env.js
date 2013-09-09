@@ -13,7 +13,7 @@ var Env = function(teamA, teamB, field_size, display) {
 
     this.display = display;
 
-    this.surface = new gamejs.surfacearray.SurfaceArray(this.display);
+    this.surface = new gamejs.surfacearray.SurfaceArray(display);
 
     var teamAscore = 0;
     var teamBscore = 0;

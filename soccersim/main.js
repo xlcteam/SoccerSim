@@ -23,8 +23,16 @@ gamejs.ready(function() {
   //    (new gamejs.font.Font('30px Sans-serif')).render('Hello World')
   //);
   //
-
+    
+    
     var env = new Env(teamA, teamB, [width, height], display);
+
+    display.fill("#047a01");
+    this.field = gamejs.image.load("img/field.png");
+
+    display.blit(this.field, [(env.width-729)/2, (env.height-546)/2]);
+    env.update_surface()
+
 
     // added the color of goals
     env.add_block_color("#000000");
@@ -120,7 +128,7 @@ gamejs.ready(function() {
           //robot.ultrasonic_sensors[1].read();
         });
 
-        console.log(robotA1.ultrasonic_sensors[0].read())
+        console.log(robotA1.light_sensors[0].read())
 
         // debug draw of goals
       //props.forEach(function(prop){

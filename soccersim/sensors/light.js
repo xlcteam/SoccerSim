@@ -10,13 +10,23 @@ var LightSensor = function(robot, pos){
 };
 
 LightSensor.prototype.draw = function (surface){
-    this.x = this.robot.rect.left + this.pos[0];
-    this.y = this.robot.rect.top + this.pos[1];
+    this.x = Math.round(this.robot.rect.left + this.pos[0]);
+    this.y = Math.round(this.robot.rect.top + this.pos[1]);
     draw.circle(surface, "#000CB7", [this.x, this.y], 3, 0);
 }
 
 LightSensor.prototype.read = function() {
-    var color = surfacearray.get(this.x, this.y);
+    
+    function max (numArray) {
+        return Math.max.apply(null, numArray);
+    }
+
+    function min (numArray) {
+        return Math.min.apply(null, numArray);
+    }
+
+    var color = this.robot.env.surface.get(this.x, this.y).slice(0, 3);
+    return (0.5 * max(color)) + (0.5 * min(color));
 }
 
 exports.LightSensor = LightSensor;
