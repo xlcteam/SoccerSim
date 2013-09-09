@@ -119,6 +119,8 @@ gamejs.ready(function() {
           //robot.ultrasonic_sensors[1].read();
         });
 
+        console.log(robotA1.ultrasonic_sensors[0].read())
+
         // debug draw of goals
       //props.forEach(function(prop){
       //    var list = prop.body.GetFixtureList();

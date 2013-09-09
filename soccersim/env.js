@@ -32,9 +32,13 @@ var Env = function(teamA, teamB, field_size, display) {
 
 
 Env.prototype.add_block_color = function(color) {
-    var rgb_color = new Array(3);
-    //rgb_color[0] = parseInt(color[1]) *
-    this.block_colors.push(color);
+    var rgb_color = new Array(4);
+    rgb_color[0] = parseInt(color[1], 16) * 256 + parseInt(color[2]);
+    rgb_color[1] = parseInt(color[3], 16) * 256 + parseInt(color[4]);
+    rgb_color[2] = parseInt(color[5], 16) * 256 + parseInt(color[6]);
+    rgb_color[3] = 1;
+    console.log(rgb_color);
+    this.block_colors.push(rgb_color);
 }
 
 

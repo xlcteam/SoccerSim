@@ -30,6 +30,7 @@ UltraSonicSensor.prototype.read = function() {
         l += 1;
 
         var rgba = this.robot.env.surface.get(x, y); 
+        console.log(rgba);
         if (rgba[0] == undefined) {
             break; 
         }
