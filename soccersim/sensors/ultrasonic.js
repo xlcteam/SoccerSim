@@ -34,8 +34,28 @@ UltraSonicSensor.prototype.read = function() {
 
     while (is_in(x, y)) {
         l += 1;
+        
+        var touched = false;
+        var robot = this.robot;
+
+        this.robot.env.objects.forEach(function(object){
+            if (object.rect.left == robot.rect.left &&
+                object.rect.top == robot.rect.top) {
+                
+                return
+            }
 
 
+            if (object.point_whitin(x, y)) {
+                    touched = true; 
+            }
+
+        });
+
+        if (touched) {
+            break; 
+        }
+          
 
         x += Math.sin(angle);
         y += -Math.cos(angle);

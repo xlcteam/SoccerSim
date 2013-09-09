@@ -5,6 +5,8 @@ var Env = function(teamA, teamB, field_size, display) {
     this.teamB = teamB;
     this.block_colors = [];
 
+    this.objects = [];
+
     this.field_size = field_size;
     this.width = field_size[0];
     this.height = field_size[1];
@@ -41,6 +43,10 @@ Env.prototype.add_block_color = function(color) {
     rgb_color[2] = parseInt(color[5], 16) * 16 + parseInt(color[6], 16);
     rgb_color[3] = 255;
     this.block_colors.push(rgb_color);
+}
+
+Env.prototype.append_object = function(object) {
+    this.objects.push(object);
 }
 
 

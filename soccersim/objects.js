@@ -1,3 +1,4 @@
+var gamejs = require('gamejs');
 var box2d = require('./Box2dWeb-2.1.a.3');
 
 var BoxProp = function(env, pars, b2world){
@@ -10,9 +11,12 @@ var BoxProp = function(env, pars, b2world){
     */
 
     this.env = env;
+    env.append_object(this);
 
     this.size=pars.size;
     this.pos=pars.position;
+
+
     
     //initialize body
     var bdef=new box2d.b2BodyDef();
@@ -20,6 +24,7 @@ var BoxProp = function(env, pars, b2world){
     bdef.angle=0;
     bdef.fixedRotation=true;
     this.body=b2world.CreateBody(bdef);
+    this.rect = new gamejs.Rect([this.pos[0], this.pos[1]]);
     
     //initialize shape
     var fixdef=new box2d.b2FixtureDef;

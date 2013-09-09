@@ -38,6 +38,7 @@ var Robot = function(env, rect, dims, rotation, color, b2world, wheels) {
     this.body.CreateFixture(fixdef);
 
     env.add_block_color(this.color);
+    env.append_object(this);
 
     draw.circle(this.originalImage, this.color, [dims[0]/2, dims[1]/2], this.radius, 0);
     draw.circle(this.originalImage, 'rgba(255, 255, 255, 1)',
