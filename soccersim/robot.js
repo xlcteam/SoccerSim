@@ -4,6 +4,7 @@ var math = require('gamejs/utils/math');
 var box2d = require('./Box2dWeb-2.1.a.3');
 var LightSensor = require('./sensors/light').LightSensor;
 var UltraSonicSensor = require('./sensors/ultrasonic').UltraSonicSensor;
+var CompassSensor = require('./sensors/compass').CompassSensor;
 
 var Robot = function(env, rect, dims, rotation, color, b2world, wheels) {
     // call superconstructor
@@ -58,6 +59,8 @@ var Robot = function(env, rect, dims, rotation, color, b2world, wheels) {
     this.ultrasonic_sensors = []
     this.ultrasonic_sensors.push(new UltraSonicSensor(this, [0, -25], 0));
     this.ultrasonic_sensors.push(new UltraSonicSensor(this, [0,  25], 90));
+
+    this.compass_sensor = new CompassSensor(this);
 
     return this;
 };
