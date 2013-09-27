@@ -17,17 +17,8 @@ IRSensor.prototype.draw = function (surface){
 }
 
 IRSensor.prototype.read = function() {
-    
-    function max (numArray) {
-        return Math.max.apply(null, numArray);
-    }
-
-    function min (numArray) {
-        return Math.min.apply(null, numArray);
-    }
-
-    var color = this.robot.env.surface.get(this.x, this.y).slice(0, 3);
-    return Math.round(((0.5 * max(color)) + (0.5 * min(color)))/ 2.55);
+    var angle = Math.atan2(this.ball.rect.left - this.robot.rect.left,
+                           this.ball.rect.top - this.robot.rect.top) * (180 / Math.Pi);
 }
 
 exports.IRSensor = IRSensor;
