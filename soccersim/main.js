@@ -102,6 +102,8 @@ gamejs.ready(function() {
             return unoccupied;
         });
 
+    env.ball = ball;
+
     gamejs.onEvent(function(event) {
         // event handling
 
