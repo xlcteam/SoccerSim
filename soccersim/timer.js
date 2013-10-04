@@ -1,7 +1,13 @@
-var Timer = function(mins, secs, millis){
+var gamejs = require('gamejs');
+var font = require('gamejs/font');
+
+var Timer = function(env, mins, secs, millis){
+    this.env = env;
     this.mins = mins;
     this.secs = secs;
     this.millis = millis;
+
+    this.renderFont = new font.Font('50px monospace');
 
     this.startTime = [this.mins, this.secs, this.millis];
 };
@@ -34,3 +40,10 @@ Timer.prototype.returnTime = function(){
 
     return [pad2(this.mins), pad2(this.secs), this.millis];
 };
+
+Timer.prototype.draw = function(surface){
+    var timeSurface = this.renderFont.render(this.mins.toString() + ":" + this.secs.toString() + "," + this.millis);
+    surface.blit(timeSurface, [this.env.width/2-90,10]);
+}
+
+exports.Timer = Timer;

@@ -9,6 +9,7 @@ var b2world = new box2d.b2World(new box2d.b2Vec2(0, 0), false);
 var Env = require('env').Env;
 var Robot = require('robot').Robot;
 var Ball = require('ball').Ball;
+var Timer = require('timer').Timer;
 
 gamejs.preload(['img/field.png']);
 
@@ -72,6 +73,8 @@ gamejs.ready(function() {
     //bottom    
     props.push(new BoxProp(env, {'size':[37, 7], 'position':[66, 364]}, b2world));
     props.push(new BoxProp(env, {'size':[37, 7], 'position':[660, 364]}, b2world));
+
+    var timer = new Timer(env, 20, 0, 0);
     
     var ball = new Ball(env, [364, 273], [8*3, 8*3], "#644B51", [env.width, env.height], 
         b2world,
@@ -161,6 +164,7 @@ gamejs.ready(function() {
         });
 
         ball.draw(display);
+        timer.draw(display);
 
         //console.log(msDuration);
 
