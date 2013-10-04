@@ -7,7 +7,7 @@ var Timer = function(env, mins, secs, millis){
     this.secs = secs;
     this.millis = millis;
 
-    this.renderFont = new font.Font('50px monospace');
+    this.renderFont = new font.Font('50px Callibri');
 
     this.startTime = [this.mins, this.secs, this.millis];
 };
@@ -42,7 +42,8 @@ Timer.prototype.returnTime = function(){
 };
 
 Timer.prototype.draw = function(surface){
-    var timeSurface = this.renderFont.render(this.mins.toString() + ":" + this.secs.toString() + "," + this.millis);
+    var pad_time = this.returnTime();
+    var timeSurface = this.renderFont.render(pad_time[0] + ":" + pad_time[1] + "," + pad_time[2]);
     surface.blit(timeSurface, [this.env.width/2-90,10]);
 }
 
