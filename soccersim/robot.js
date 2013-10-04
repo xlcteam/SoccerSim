@@ -63,7 +63,7 @@ var Robot = function(env, rect, dims, rotation, color, b2world, wheels) {
 
     this.compass_sensor = new CompassSensor(this);
 
-    this.ir_sensor = new IRSensor(this, [10, 0], this.env.ball);
+    this.ir_sensor = new IRSensor(this, [10, 0]);
 
     return this;
 };

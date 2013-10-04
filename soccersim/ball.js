@@ -90,6 +90,15 @@ Ball.prototype.ballOutside = function(){
     return false;
 }
 
+Ball.prototype.getLocalVelocity = function(){
+    var retv = this.body.GetLocalVector(
+            this.body.GetLinearVelocityFromLocalPoint(new box2d.b2Vec2(0, 0))
+            );
+    return [retv.x, retv.y];
+}
+
+
+
 Ball.prototype.stayIn = function(){
     if (this.ballOutside()){
         this.moveToUNS();
