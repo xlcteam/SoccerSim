@@ -126,13 +126,15 @@ gamejs.ready(function() {
             robot.update(msDuration);
             robot.stayIn([env.width, env.height]);
 
-            robot.ir_sensor.read()
+            //robot.ir_sensor.read()
 
           //robot.ultrasonic_sensors[0].read();
           //robot.ultrasonic_sensors[1].read();
           //robot.light_sensors[0].read()
           //robot.light_sensors[1].read()
         });
+
+        robotA1.ir_sensor.read();
 
         //console.log(robotA1.light_sensors[0].read())
 

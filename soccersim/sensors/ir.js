@@ -20,11 +20,23 @@ IRSensor.prototype.read = function() {
   //console.log(this.robot.env.ball.rect.top , this.robot.rect.top, 
   //        this.robot.env.ball.rect.left , this.robot.rect.left);
     
-    //console.log(p1.rect.left, p1.rect.top, p2.rect.left, p2.rect.top);
-  //var angle = Math.atan2(this.robot.env.ball.rect.top - this.robot.rect.top,
-  //                       this.robot.env.ball.rect.left - this.robot.rect.left);
-  //angle *= (180 / Math.PI);
-  //console.log(angle);
+    var angle = Math.atan2(this.robot.env.ball.rect.top - this.robot.rect.top,
+                           this.robot.env.ball.rect.left - this.robot.rect.left);
+    angle *= (180 / Math.PI);
+
+
+    if (angle < 0) angle += 360;
+    angle = Math.round(angle);
+
+    var sensor = 0;
+
+    if (angle > (360-360/21))
+        sensor = 7;
+    else if (angle < (360/21))
+        sensor = 1;
+    else
+        sensor = Math.ceil((angle-(360/21))/((360-360/21)/6)) + 1
+    console.log(sensor);
 }
 
 exports.IRSensor = IRSensor;
