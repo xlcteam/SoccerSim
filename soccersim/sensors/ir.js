@@ -25,6 +25,7 @@ IRSensor.prototype.read = function() {
     angle *= (180 / Math.PI);
 
 
+    // make sure angle is from <0, 360>
     if (angle < 0) angle += 360;
     angle = Math.round(angle);
 
@@ -36,7 +37,8 @@ IRSensor.prototype.read = function() {
         sensor = 1;
     else
         sensor = Math.ceil((angle-(360/21))/((360-360/21)/6)) + 1
-    console.log(sensor);
+
+    return sensor;
 }
 
 exports.IRSensor = IRSensor;
