@@ -165,4 +165,25 @@ Robot.prototype.point_whitin = function(point) {
     return this.mouseOver(point);    
 }
 
+Robot.prototype.stop = function() {
+    this.vec = [];
+}
+
+Robot.prototype.forward = function(speed) {
+    this.vec = [speed, 0];
+}
+
+Robot.prototype.reverse = function(speed) {
+    this.vec = [-speed, 0];
+}
+
+Robot.prototype.left = function(speed) {
+    this.vec = [0, -speed];
+}
+
+Robot.prototype.right = function(speed) {
+    this.vec = [0, speed];
+}
+
+
 exports.Robot = Robot;

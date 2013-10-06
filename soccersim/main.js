@@ -114,7 +114,7 @@ gamejs.ready(function() {
         ball.eventResponse(event);
     });
 
-    robotA1.vec = [80, 25];
+    robotA1.forward(80);
 
     gamejs.onTick(function(msDuration) {
         // game loop
