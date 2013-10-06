@@ -114,7 +114,7 @@ gamejs.ready(function() {
         ball.eventResponse(event);
     });
 
-    robotA1.forward(80);
+    robotA1.forward_right(80);
 
     gamejs.onTick(function(msDuration) {
         // game loop

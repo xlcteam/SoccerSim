@@ -185,5 +185,12 @@ Robot.prototype.right = function(speed) {
     this.vec = [0, speed];
 }
 
+Robot.prototype.forward_left = function(speed) {
+    this.vec = [speed/Math.sqrt(2), -(speed/(Math.sqrt(2)))]
+}
+
+Robot.prototype.forward_right = function(speed) {
+    this.vec = [speed/Math.sqrt(2), (speed/(Math.sqrt(2)))]
+}
 
 exports.Robot = Robot;
