@@ -30,6 +30,22 @@ DummyRobot.prototype.left = function (speed) {
     return this.send_command('left(' + speed + ')');
 }
 
+DummyRobot.prototype.forward_right = function (speed) {
+    return this.send_command('forward_right(' + speed + ')');
+}
+
+DummyRobot.prototype.forward_left = function (speed) {
+    return this.send_command('forward_left(' + speed + ')');
+}
+
+DummyRobot.prototype.reverse_left = function (speed) {
+    return this.send_command('reverse_left(' + speed + ')');
+}
+
+DummyRobot.prototype.reverse_right = function (speed) {
+    return this.send_command('reverse_right(' + speed + ')');
+}
+
 DummyRobot.prototype.send_command = function (command) {
     return gamejs.worker.post({code: this.id + '.' + command + ';' });
 }
