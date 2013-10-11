@@ -1,7 +1,29 @@
 var gamejs = require('gamejs');
 
+var DummySensor = function(robot, type) {
+    this.robot = robot;
+    this.type = type
+    return this;
+}
+
+DummySensor.prototype.read = function() {
+    gamejs.worker.post({read_sensor: this.type});
+    while (this.robot.sensor_queue.length == 0) {}
+    return this.robot.sensor_queue.pop();
+}
+
 var DummyRobot = function(id) {
     this.id = id;
+
+    this.light_sensors = [DummySensor(this, 'light1'), DummySensor(this, 'light2')];
+    this.ultrasonic_sensors = [DummySensor(this, 'ultrasonic1'), 
+                               DummySensor(this, 'ultrasonic2')];
+
+    this.ir_sensor = DummySensor(this, 'ir');
+
+    this.sensor_queue = new Array();
+
+
     return this;
 };
 

@@ -107,7 +107,7 @@ gamejs.ready(function() {
     evalWorker = new gamejs.worker.Worker('./evaler');
     evalWorker.post({id: 'robotA1'});
 
-    var a = "robot.forward(20); robot.wait(2000); robot.reverse_left(20);" +
+    var a = "robot.forward(80); robot.wait(2000); robot.reverse_left(80);" +
             "robot.wait(2000); robot.stop();"
 
     evalWorker.post({todo:a});
