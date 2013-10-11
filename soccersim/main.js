@@ -105,7 +105,11 @@ gamejs.ready(function() {
     env.ball = ball;
 
     evalWorker = new gamejs.worker.Worker('./evaler');
-    evalWorker.post({name: 'robotA1'});
+    evalWorker.post({id: 'robotA1'});
+
+    var a = "robot.forward(20); robot.wait(2000); robot.reverse_left(20);"
+
+    evalWorker.post({todo:a});
 
     evalWorker.onEvent(function(event) {
         eval(event.code);
@@ -126,7 +130,7 @@ gamejs.ready(function() {
         ball.eventResponse(event);
     });
 
-    robotA1.reverse_right(80);
+    //robotA1.reverse_right(80);
 
     gamejs.onTick(function(msDuration) {
         // game loop

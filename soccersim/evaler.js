@@ -35,7 +35,7 @@ var handleEvent = function(data) {
 
 
     } else {
-        gamejs.log('unknown todo');
+        gamejs.log('unknown todo', data);
     }
 }
 gamejs.ready(function() {
