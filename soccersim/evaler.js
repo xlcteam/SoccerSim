@@ -17,9 +17,8 @@ var handleEvent = function(data) {
 
     if (data.id) {
         id = data.id;
-    }
 
-    if (data.todo) {
+    } else if (data.todo) {
         var robot = new DummyRobot(id);
         var code = data.todo;
 
