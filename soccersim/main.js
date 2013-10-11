@@ -104,6 +104,18 @@ gamejs.ready(function() {
 
     env.ball = ball;
 
+    evalWorker = new gamejs.worker.Worker('./evaler');
+    evalWorker.post({name: 'robotA1'});
+
+    evalWorker.onEvent(function(event) {
+        eval(event.code);
+    });
+
+    evalWorker.onError(function(data) {
+        gamejs.log('worker threw an exception', data);
+    });
+
+
     gamejs.onEvent(function(event) {
         // event handling
 

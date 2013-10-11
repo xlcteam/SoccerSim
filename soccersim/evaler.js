@@ -6,6 +6,7 @@
 
 var gamejs = require('gamejs');
 var DummyRobot = require('dummy_robot').DummyRobot;
+var name = '';
 
 var handleEvent = function(data) {
     var waiter = function(millis){
@@ -14,8 +15,12 @@ var handleEvent = function(data) {
         }
     }
 
+    if (data.id) {
+        id = data.id;
+    }
+
     if (data.todo) {
-        var robot = new DummyRobot();
+        var robot = new DummyRobot(id);
         var code = data.todo;
 
         //gamejs.log(data);
