@@ -113,7 +113,13 @@ gamejs.ready(function() {
     evalWorker.post({todo:a});
 
     evalWorker.onEvent(function(event) {
-        eval(event.code);
+        if (event.code)
+            eval(event.code);
+        else if (event.read_sensor) {
+            var result = Function(event.read_sensor);
+            evalWorker.post({sensor_value: result});
+        }
+             
     });
 
     evalWorker.onError(function(data) {
@@ -143,12 +149,12 @@ gamejs.ready(function() {
             robot.update(msDuration);
             robot.stayIn([env.width, env.height]);
 
-            robot.ir_sensor.read();
+          //robot.ir_sensor.read();
 
-            robot.ultrasonic_sensors[0].read();
-            robot.ultrasonic_sensors[1].read();
-            robot.light_sensors[0].read()
-            robot.light_sensors[1].read()
+          //robot.ultrasonic_sensors[0].read();
+          //robot.ultrasonic_sensors[1].read();
+          //robot.light_sensors[0].read()
+          //robot.light_sensors[1].read()
         });
 
 

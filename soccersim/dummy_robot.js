@@ -7,7 +7,7 @@ var DummySensor = function(robot, type) {
 }
 
 DummySensor.prototype.read = function() {
-    gamejs.worker.post({read_sensor: this.type});
+    gamejs.worker.post({read_sensor: 'return ' + this.robot.id + this.type + '.read();' });
     while (this.robot.sensor_queue.length == 0) {}
     return this.robot.sensor_queue.pop();
 }
@@ -15,11 +15,12 @@ DummySensor.prototype.read = function() {
 var DummyRobot = function(id) {
     this.id = id;
 
-    this.light_sensors = [DummySensor(this, 'light1'), DummySensor(this, 'light2')];
-    this.ultrasonic_sensors = [DummySensor(this, 'ultrasonic1'), 
-                               DummySensor(this, 'ultrasonic2')];
+    this.light_sensors = [DummySensor(this, 'light_sensors[0]'),
+                          DummySensor(this, 'light_sensors[1]')];
+    this.ultrasonic_sensors = [DummySensor(this, 'ultrasonic_sensors[0]'),
+                               DummySensor(this, 'ultrasonic_sensors[1]')];
 
-    this.ir_sensor = DummySensor(this, 'ir');
+    this.ir_sensor = DummySensor(this, 'ir_sensor');
 
     this.sensor_queue = new Array();
 

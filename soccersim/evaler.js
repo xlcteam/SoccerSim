@@ -18,6 +18,8 @@ var handleEvent = function(data) {
     if (data.id) {
         robot = new DummyRobot(data.id);
 
+    } else if (data.sensor_value) {
+        robot.sensor_queue.push(data.sensor_value);
     } else if (data.todo) {
         var code = data.todo;
 
