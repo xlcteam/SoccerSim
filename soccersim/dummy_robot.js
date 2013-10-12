@@ -7,6 +7,7 @@ var DummySensor = function(robot, type) {
 }
 
 DummySensor.prototype.read = function() {
+    gamejs.log('sending');
     gamejs.worker.post({read_sensor: 'return ' + this.robot.id + this.type + '.read();' });
     while (this.robot.sensor_queue.length == 0) {}
     return this.robot.sensor_queue.pop();
@@ -23,8 +24,6 @@ var DummyRobot = function(id) {
     this.ir_sensor = DummySensor(this, 'ir_sensor');
 
     this.sensor_queue = new Array();
-
-
     return this;
 };
 
@@ -69,9 +68,16 @@ DummyRobot.prototype.reverse_right = function (speed) {
     return this.send_command('reverse_right(' + speed + ')');
 }
 
+DummyRobot.prototype.log = function (what) {
+    return this.send_command('log("' + JSON.stringify(what) + '")');
+}
+
 DummyRobot.prototype.send_command = function (command) {
     return gamejs.worker.post({code: this.id + '.' + command + ';' });
 }
+
+
+
 
 
 

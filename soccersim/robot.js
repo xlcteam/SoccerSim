@@ -201,4 +201,8 @@ Robot.prototype.reverse_right = function(speed) {
     this.vec = [-(speed/Math.sqrt(2)), (speed/(Math.sqrt(2)))]
 }
 
+Robot.prototype.log = function(what){
+   return console.log(JSON.parse(what)); 
+}
+
 exports.Robot = Robot;

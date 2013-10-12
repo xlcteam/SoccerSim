@@ -108,9 +108,11 @@ gamejs.ready(function() {
     evalWorker.post({id: 'robotA1'});
 
     var a = "robot.forward(80); robot.wait(2000); robot.reverse_left(80);" +
-            "robot.wait(2000); robot.stop();"
+            "robot.wait(2000); robot.stop();";
 
-    evalWorker.post({todo:a});
+    var b = "robot.ir_sensor.read();";
+
+    evalWorker.post({todo:b});
 
     evalWorker.onEvent(function(event) {
         if (event.code)
