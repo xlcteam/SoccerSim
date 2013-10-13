@@ -110,15 +110,19 @@ gamejs.ready(function() {
     var a = "robot.forward(80); robot.wait(2000); robot.reverse_left(80);" +
             "robot.wait(2000); robot.stop();";
 
-    var b = "robot.ir_sensor.read();";
+    var b = "robot.forward(90); robot.log([1,2,3]); robot.wait(2000); robot.ir_sensor.read();";
 
     evalWorker.post({todo:b});
+
+    evalWorker.onError(function(err){
+        gamejs.log('error', err); 
+    })
 
     evalWorker.onEvent(function(event) {
         if (event.code)
             eval(event.code);
         else if (event.read_sensor) {
-            var result = Function(event.read_sensor);
+            var result = eval(event.read_sensor);
             evalWorker.post({sensor_value: result});
         }
              

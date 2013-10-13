@@ -3,12 +3,12 @@ var gamejs = require('gamejs');
 var DummySensor = function(robot, type) {
     this.robot = robot;
     this.type = type
-    return this;
+    return ;
 }
 
 DummySensor.prototype.read = function() {
-    gamejs.log('sending');
-    gamejs.worker.post({read_sensor: 'return ' + this.robot.id + this.type + '.read();' });
+    gamejs.worker.post({read_sensor: this.robot.id + '.' +
+                            this.type + '.read();' });
     while (this.robot.sensor_queue.length == 0) {}
     return this.robot.sensor_queue.pop();
 }
@@ -16,12 +16,12 @@ DummySensor.prototype.read = function() {
 var DummyRobot = function(id) {
     this.id = id;
 
-    this.light_sensors = [DummySensor(this, 'light_sensors[0]'),
-                          DummySensor(this, 'light_sensors[1]')];
-    this.ultrasonic_sensors = [DummySensor(this, 'ultrasonic_sensors[0]'),
-                               DummySensor(this, 'ultrasonic_sensors[1]')];
+    this.light_sensors = [new DummySensor(this, 'light_sensors[0]'),
+                          new DummySensor(this, 'light_sensors[1]')];
+    this.ultrasonic_sensors = [new DummySensor(this, 'ultrasonic_sensors[0]'),
+                               new DummySensor(this, 'ultrasonic_sensors[1]')];
 
-    this.ir_sensor = DummySensor(this, 'ir_sensor');
+    this.ir_sensor = new DummySensor(this, 'ir_sensor');
 
     this.sensor_queue = new Array();
     return this;
@@ -69,10 +69,11 @@ DummyRobot.prototype.reverse_right = function (speed) {
 }
 
 DummyRobot.prototype.log = function (what) {
-    return this.send_command('log("' + JSON.stringify(what) + '")');
+    return this.send_command('log(\'' + JSON.stringify(what) + '\')');
 }
 
 DummyRobot.prototype.send_command = function (command) {
+    gamejs.log(command);
     return gamejs.worker.post({code: this.id + '.' + command + ';' });
 }
 

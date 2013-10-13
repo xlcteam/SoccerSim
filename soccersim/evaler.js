@@ -30,7 +30,7 @@ var handleEvent = function(data) {
         } catch (e) {
             // Null is thrown for infinite loop.
             // Otherwise, abnormal termination is a user error.
-            gamejs.log(e);
+            gamejs.log(e.name, e.message);
         }
 
 
