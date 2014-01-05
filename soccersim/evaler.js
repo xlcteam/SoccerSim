@@ -8,31 +8,34 @@ var gamejs = require('gamejs');
 var DummyRobot = require('dummy_robot').DummyRobot;
 var robot;
 
+var code = '';
+
 var handleEvent = function(data) {
     var waiter = function(millis){
         var time = Date.now();
         while (Date.now() - time < millis) {
         }
     }
+    gamejs.log(data);
 
     if (data.id) {
         robot = new DummyRobot(data.id);
 
     } else if (data.sensor_value) {
         robot.sensor_queue.push(data.sensor_value);
-    } else if (data.todo) {
-        var code = data.todo;
+        gamejs.log(robot.sensor_queue);
+    } 
+    if (data.sensor_vals) {
+        robot.sensor_vals = data.sensor_vals;
+        gamejs.log(robot.sensor_vals);
+    } 
+    
+    if (data.todo) {
+        code = data.todo;
 
-        //gamejs.log(data);
+        gamejs.log(code);
 
-        try {
-            eval(code);
-        } catch (e) {
-            // Null is thrown for infinite loop.
-            // Otherwise, abnormal termination is a user error.
-            gamejs.log(e.name, e.message);
-        }
-
+        eval(code);
 
     } else {
         gamejs.log('unknown todo', data);
@@ -40,4 +43,5 @@ var handleEvent = function(data) {
 }
 gamejs.ready(function() {
     gamejs.onEvent(handleEvent);
-})
+});
+

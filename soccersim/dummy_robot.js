@@ -7,10 +7,7 @@ var DummySensor = function(robot, type) {
 }
 
 DummySensor.prototype.read = function() {
-    gamejs.worker.post({read_sensor: this.robot.id + '.' +
-                            this.type + '.read();' });
-    while (this.robot.sensor_queue.length == 0) {}
-    return this.robot.sensor_queue.pop();
+    return this.robot.sensor_vals[this.type];
 }
 
 var DummyRobot = function(id) {
@@ -30,6 +27,7 @@ var DummyRobot = function(id) {
 DummyRobot.prototype.wait = function (millis) {
     var time = Date.now();
     while (Date.now() - time < millis) {}
+    this.tick()
 }
 
 DummyRobot.prototype.stop = function () {
@@ -74,9 +72,13 @@ DummyRobot.prototype.log = function (what) {
 
 DummyRobot.prototype.send_command = function (command) {
     gamejs.log(command);
-    return gamejs.worker.post({code: this.id + '.' + command + ';' });
+    return gamejs.worker.post({code: this.id + '.' + command + ';ticker();' });
 }
 
+
+DummyRobot.prototype.tick = function() {
+    return gamejs.worker.post({code: 'ticker();' });
+}
 
 
 

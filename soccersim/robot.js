@@ -205,4 +205,13 @@ Robot.prototype.log = function(what){
    return console.log(JSON.parse(what)); 
 }
 
+Robot.prototype.sensor_dump = function() {
+    return {'ir_sensor': this.ir_sensor.read(), 
+            'light_sensors[0]': this.light_sensors[0].read(),
+            'light_sensors[1]': this.light_sensors[1].read(),
+            'ultrasonic_sensors[0]': this.ultrasonic_sensors[0].read(),
+            'ultrasonic_sensors[1]': this.ultrasonic_sensors[1].read()
+    }
+}
+
 exports.Robot = Robot;

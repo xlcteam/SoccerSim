@@ -104,15 +104,25 @@ gamejs.ready(function() {
 
     env.ball = ball;
 
+    gamejs.log('huh?');
     evalWorker = new gamejs.worker.Worker('./evaler');
     evalWorker.post({id: 'robotA1'});
 
-    var a = "robot.forward(80); robot.wait(2000); robot.reverse_left(80);" +
+    var a = "robot.forward(80); robot.wait(2000); robot.reverse_left(80); " +
             "robot.wait(2000); robot.stop();";
 
-    var b = "robot.forward(90); robot.log([1,2,3]); robot.wait(2000); robot.ir_sensor.read();";
+    var b = "robot.forward(90); robot.wait(2000); robot.log(robot.sensor_vals); robot.log(robot.ir_sensor.read());";
 
-    evalWorker.post({todo:b});
+    var c = b.split(" ");
+    function ticker() {
+        var code = c.shift();
+        if (code !== undefined)
+            evalWorker.post({todo: code, sensor_vals: robotA1.sensor_dump()});
+
+        console.log(c);
+    }
+
+    ticker();
 
     evalWorker.onError(function(err){
         gamejs.log('error', err); 
@@ -123,6 +133,7 @@ gamejs.ready(function() {
             eval(event.code);
         else if (event.read_sensor) {
             var result = eval(event.read_sensor);
+            console.log('returning', result);
             evalWorker.post({sensor_value: result});
         }
              
